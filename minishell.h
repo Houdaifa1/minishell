@@ -1,0 +1,24 @@
+#ifndef MINISHELL_H
+# define    MINISHELL_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+
+typedef struct echo
+{
+    char    **argumment;
+    char    *command;
+    char    *options;
+    struct data *next;
+}   t_data;
+
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *s);
+char	**ft_split(const char *s, char c);
+// int	count_args(char *input);
+
+#endif
