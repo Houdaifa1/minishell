@@ -46,6 +46,8 @@ char    **split_line_to_args(char *input)
     args = malloc(sizeof(char *) * count_args(input) + 1);
     while (input[i] != '\0')
     {
+        while (input[i + 1] == ' ' && quote == 0)
+            i++;
         if (input[i] == '\'' || input[i] == '"')
         {
             if (quote == 0)
