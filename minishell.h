@@ -19,6 +19,8 @@ typedef struct echo
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
 char	**ft_split(const char *s, char c);
-// int	count_args(char *input);
+int	ft_count_args(char *input);
+void	ft_add_node(t_data **head, char *command, char **arguments);
+t_data *creat_node(char *command, char **arguments);
 
 #endif
