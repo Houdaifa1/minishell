@@ -46,8 +46,12 @@ int	ft_count_args(char *input)
 		{
 			if (quote == 0)
 				quote = input[i];
+			
 			else if (quote == input[i])
+			{
 				quote = 0;
+			}
+			i++;
 		}
 		else if (input[i] == ' ' && quote == 0)
 		{
@@ -57,8 +61,10 @@ int	ft_count_args(char *input)
                 break;
 			count++;
 		}
-		i++;
+		else
+			i++;
 	}
+	//printf(" count     %d\n", count + 1);
 	return (count + 1);
 }
 

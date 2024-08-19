@@ -64,7 +64,8 @@ void  parse_line(t_data **data, char *input)
     if (check_qout(input) == 1)
     {
         printf("bash: syntax error\n");
-        return ;
+        exit(1);
+        //return ;
     }
     remaining_input = input;
     while ((token = strsplit_by_pipe(&remaining_input)) != NULL)
@@ -112,16 +113,16 @@ void ft_free_list(t_data *head)
     {
         temp = head;
         head = head->next;
-        if (temp->argumment)
-        {
-            while (temp->argumment[i] != NULL)
-            {
-                free(temp->argumment[i]);
-                i++;
-            }
-            free(temp->argumment);
-            i = 0;
-        }
+        // if (temp->argumment)
+        // {
+        //     while (temp->argumment[i] != NULL)
+        //     {
+        //         free(temp->argumment[i]);
+        //         i++;
+        //     }
+        //     free(temp->argumment);
+        //     i = 0;
+        // }
         free(temp);
     }
 }
@@ -139,6 +140,8 @@ int main()
         if (input[0] != '\0')
         {
             parse_line(&data, input);
+            add_history(input);
+            exec_commands(data);
         }
         print_use_list(data);
         ft_free_list(data);
