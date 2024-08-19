@@ -1,12 +1,12 @@
 #include "minishell.h"
 
-char    **split_line_to_args(char *input)
+char **split_line_to_args(char *input)
 {
-    char    **args;
+    char **args;
     int i;
     int j;
-    char    quote;
-    char    buffer[1024];
+    char quote;
+    char buffer[1024];
     int buf_index;
 
     i = 0;
@@ -25,7 +25,7 @@ char    **split_line_to_args(char *input)
             else if (quote == input[i])
                 quote = 0;
         }
-        else if (input[i] == ' ' && quote == 0 )
+        else if (input[i] == ' ' && quote == 0)
         {
             if (buf_index > 0)
             {
@@ -52,12 +52,12 @@ char    **split_line_to_args(char *input)
     return (args);
 }
 
-void  parse_line(t_data **data, char *input)
+void parse_line(t_data **data, char *input)
 {
-    char    *command;
-    char    **arguments;
-    char    *token;
-    char    *remaining_input;
+    char *command;
+    char **arguments;
+    char *token;
+    char *remaining_input;
     int i;
 
     i = 0;
@@ -65,14 +65,14 @@ void  parse_line(t_data **data, char *input)
     {
         printf("bash: syntax error\n");
         exit(1);
-        //return ;
+        // return ;
     }
     remaining_input = input;
     while ((token = strsplit_by_pipe(&remaining_input)) != NULL)
     {
         arguments = split_line_to_args(token);
         if (arguments[0] != NULL)
-                ft_add_node(data, arguments);
+            ft_add_node(data, arguments);
     }
     // while (arguments[i] != NULL)
     // {
@@ -82,8 +82,7 @@ void  parse_line(t_data **data, char *input)
     // free(arguments);
 }
 
-
-void print_use_list(t_data *head)// for testing
+void print_use_list(t_data *head) // for testing
 {
     t_data *temp = head;
     int i = 0;
@@ -129,19 +128,18 @@ void ft_free_list(t_data *head)
 
 int main()
 {
-    t_data  *data;
-    char    *input;
-
+    t_data *data;
+    char *input;
 
     data = NULL;
     while (1)
     {
-        input = readline("minishell $> ");
+        input = readline(print_prompt());
         if (input[0] != '\0')
         {
             parse_line(&data, input);
             add_history(input);
-            exec_commands(data);
+            exec_commandes(data);
         }
         print_use_list(data);
         ft_free_list(data);

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <linux/limits.h>
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -22,7 +23,10 @@ void	ft_add_node(t_data **head, char **arguments);
 t_data *creat_node(char **arguments);
 char *strsplit_by_pipe(char **str);
 int check_qout(char *input);
-void    exec_commands(t_data *commandes);
+void    exec_commandes(t_data *commandes);
 void    exec_echo(char **commande);
 void    ft_putstr(char *str);
+void exec_pwd();
+char *print_prompt();
+
 #endif
