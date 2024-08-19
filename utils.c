@@ -1,24 +1,33 @@
 #include "minishell.h"
 
-
-t_data *creat_node(char *command, char **arguments)
+t_data *creat_node(char **arguments)
 {
 	t_data	*new_node = malloc(sizeof(t_data));
-	new_node->command = ft_strdup(command);
+    if (!new_node)
+        return NULL;
 	new_node->argumment = arguments;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-void	ft_add_node(t_data **head, char *command, char **arguments)
+void	ft_add_node(t_data **head, char **arguments)
 {
 	t_data	*new_node;
+	t_data	*tmp = *head;
 
-	new_node = creat_node(command, arguments);
+	new_node = creat_node(arguments);
+    if (!new_node)
+        return;
 	if (*head == NULL)
 	{
 		*head = new_node;
 		return ;
+	}
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_node;
 	}
 }
 
@@ -51,6 +60,92 @@ int	ft_count_args(char *input)
 		i++;
 	}
 	return (count + 1);
+}
+
+int check_qout(char *input)
+{
+    int i;
+    int flag;
+    int quote;
+	int	count;
+
+    i = 0;
+    flag = 0;
+    quote = 0;
+	count = 0;
+    while (input[i] != '\0')
+    {	if (input[i] == '\\' && (input[i + 1] == '\0' || input[i + 1] == '\"' || input[i + 1] == '\\'))
+		{
+			while (input[i] == '\\')
+			{
+				i++;
+				count++;
+			}
+			if (quote != 0 && input[i] != '\"')
+				;
+			else if (count % 2 != 0)
+				return (1);
+		}
+        if (input[i] == '\'' || input[i] == '"')
+        {
+            if (quote == 0)
+            {
+                quote = input[i];
+                flag = 1;
+            }
+            else if (quote == input[i])
+            {
+                quote = 0;
+                flag = 0;
+            }
+        }
+		else if (input[i] == '|' && quote == 0)
+		{
+			if (input[i] == '|' && input[i + 1] == '|')
+				return (1);
+		}
+        i++;
+    }
+    return (flag);
+}
+
+char *strsplit_by_pipe(char **str)
+{
+    char	*start;
+    char	*pipe_pos;
+    char	quote;
+    int	i;
+
+	start = *str;
+	pipe_pos = NULL;
+	quote = 0;
+	i = 0;
+    if (start == NULL)
+        return NULL;
+    while (start[i] != '\0')
+    {
+        if (start[i] == '\'' || start[i] == '"')
+        {
+            if (quote == 0)
+                quote = start[i];
+            else if (quote == start[i])
+                quote = 0;
+        }
+        else if (start[i] == '|' && quote == 0)
+        {
+            pipe_pos = &start[i];
+            break;
+        }
+        i++;
+    }
+    if (pipe_pos != NULL)
+    {
+        *pipe_pos = '\0';
+        *str = pipe_pos + 1;
+    }
+    else
+        *str = NULL;
+    return (start);
 }
 
 size_t	ft_strlen(const char *s)
