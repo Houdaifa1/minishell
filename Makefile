@@ -1,8 +1,8 @@
 NAME = minishell
 
-SOURCE = main.c utils.c ft_split.c exec_comandes.c exec_echo.c exec_pwd.c prompt_utils.c exec_cd.c
+SOURCE = main.c parsing/utils.c parsing/ft_free.c parsing/parsing.c execution/exec_comandes.c execution/exec_echo.c execution/exec_pwd.c execution/prompt_utils.c execution/exec_cd.c
 
-CFLAGS = -Wall -Wextra -Werror -w # -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror -w #-fsanitize=address 
 
 
 all: $(NAME)
