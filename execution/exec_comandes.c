@@ -24,6 +24,6 @@ void exec_simple_commande(t_data *commande, char **envp)
 }
 void exec_commandes(t_data *commandes, char **envp)
 {
-    if (commandes->next == NULL)
+    if (commandes->next == NULL && commandes != NULL)
         exec_simple_commande(commandes, envp);
 }

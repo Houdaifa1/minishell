@@ -48,6 +48,10 @@ char **split_line_to_args(char *input)
         buffer[buf_index] = '\0';
         args[j++] = strdup(buffer);
     }
+    if (buf_index ==  0)
+    {
+        args[1] == NULL; 
+    }
     args[j] = NULL;
     return (args);
 }
@@ -67,12 +71,15 @@ int  parse_line(t_data **data, char *input)
         //exit(1);
         return (1);
     }
+    
     remaining_input = input;
     while ((token = strsplit_by_pipe(&remaining_input)) != NULL)
     {
         arguments = split_line_to_args(token);
         if (arguments[0] != NULL)
             ft_add_node(data, arguments);
+        else
+            return (1);
     }
     return (0);
 }

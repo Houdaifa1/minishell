@@ -79,18 +79,7 @@ int check_qout(char *input)
     quote = 0;
 	count = 0;
     while (input[i] != '\0')
-    {	if (input[i] == '\\' && (input[i + 1] == '\0' || input[i + 1] == '\"' || input[i + 1] == '\\'))
-		{
-			while (input[i] == '\\')
-			{
-				i++;
-				count++;
-			}
-			if (quote != 0 && input[i] != '\"')
-				;
-			else if (count % 2 != 0)
-				return (1);
-		}
+    {
         if (input[i] == '\'' || input[i] == '"')
         {
             if (quote == 0)
