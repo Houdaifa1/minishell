@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void exec_cd(char **commande)
 {

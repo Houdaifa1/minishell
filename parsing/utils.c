@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 t_data *creat_node(char **arguments)
 {
@@ -64,7 +64,6 @@ int	ft_count_args(char *input)
 		else
 			i++;
 	}
-	//printf(" count     %d\n", count + 1);
 	return (count + 1);
 }
 
