@@ -3,6 +3,7 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*join;
+	char	*home;
 	size_t	i;
 	size_t	j;
 
@@ -22,13 +23,27 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	join[i + 3] = '\0';
 	return (join);
 }
-char *print_prompt()
+
+char *print_prompt(char **envp)
 {
-    char *join;
+    char *home;
     char path[PATH_MAX];
     char *prompt;
+	int i;
 
     getcwd(path, PATH_MAX);
-    prompt = ft_strjoin("minishell :", path);
+	if (ft_strcmp(path, ft_getenv(envp, "HOME")) == 0)
+		prompt = ft_strjoin("minishell :", "~");
+	else
+	{
+		i = 0;
+		home = ft_getenv(envp, "HOME");
+		while(home && home[i] && path[i] && home[i] == path[i])
+			i++;
+		if (home && home[i] == '\0')
+			prompt = ft_strjoin("minishell :~", &path[i]);
+		else 
+    		prompt = ft_strjoin("minishell :", path);
+	}
     return(prompt);
 }

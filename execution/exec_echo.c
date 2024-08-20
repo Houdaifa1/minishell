@@ -12,6 +12,7 @@ void ft_putstr(char *str)
         i++;
     }
 }
+
 int check_valid_options(char **commande)
 {
     int j;

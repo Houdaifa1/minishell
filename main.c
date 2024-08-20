@@ -20,21 +20,22 @@ void print_use_list(t_data *head) // for testing
     }
 }
 
-int main()
+int main(int arc, char **arv, char **envp)
 {
     t_data *data;
     char *input;
 
+
     data = NULL;
     while (1)
     {
-        input = readline(print_prompt());
+        input = readline(print_prompt(envp));
         if (input[0] != '\0')
         {
             if (parse_line(&data, input) == 0)
             {
                 add_history(input);
-                exec_commandes(data);  
+                exec_commandes(data, envp);  
             }
         }
         //print_use_list(data);
