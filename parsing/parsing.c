@@ -30,7 +30,7 @@ char **split_line_to_args(char *input)
             if (buf_index > 0)
             {
                 buffer[buf_index] = '\0';
-                args[j++] = strdup(buffer);
+                args[j++] = ft_strdup(buffer);
                 buf_index = 0;
             }
             while (input[i] == ' ')
@@ -46,7 +46,7 @@ char **split_line_to_args(char *input)
     if (buf_index > 0)
     {
         buffer[buf_index] = '\0';
-        args[j++] = strdup(buffer);
+        args[j++] = ft_strdup(buffer);
     }
     if (buf_index ==  0)
     {

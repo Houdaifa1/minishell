@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2, int flag)
 {
 	char	*join;
 	char	*home;
@@ -17,6 +17,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	while (s2[j])
 		join[i++] = s2[j++];
+	if (flag == 1)
+	{
+		join[i] = '\0';
+		return(join);
+	}
     join[i] = '$';
     join[i + 1] = '>';
 	join[i + 2] = ' ';
@@ -32,18 +37,20 @@ char *print_prompt(char **envp)
 	int i;
 
     getcwd(path, PATH_MAX);
-	if (ft_strcmp(path, ft_getenv(envp, "HOME")) == 0)
-		prompt = ft_strjoin("minishell :", "~");
+	home = ft_getenv(envp, "HOME");
+	if (ft_strcmp(path, home) == 0)
+		prompt = ft_strjoin("minishell :", "~", 0);
 	else
 	{
 		i = 0;
-		home = ft_getenv(envp, "HOME");
 		while(home && home[i] && path[i] && home[i] == path[i])
 			i++;
 		if (home && home[i] == '\0')
-			prompt = ft_strjoin("minishell :~", &path[i]);
-		else 
-    		prompt = ft_strjoin("minishell :", path);
+			prompt = ft_strjoin("minishell :~", &path[i], 0);
+		else if (path != NULL)
+    		prompt = ft_strjoin("minishell :", path, 0);
 	}
+	if (home != NULL)
+		free(home);
     return(prompt);
 }

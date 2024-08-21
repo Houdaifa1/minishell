@@ -24,12 +24,13 @@ int main(int arc, char **arv, char **envp)
 {
     t_data *data;
     char *input;
+    char *temp;
 
 
     data = NULL;
     while (1)
     {
-        input = readline(print_prompt(envp));
+        input = readline(temp = print_prompt(envp));
         if (input[0] != '\0')
         {
             if (parse_line(&data, input) == 0)
@@ -41,6 +42,8 @@ int main(int arc, char **arv, char **envp)
         //print_use_list(data);
         ft_free_list(data); 
         data = NULL;
+        free(temp);
         free(input);
     }
 }
+
