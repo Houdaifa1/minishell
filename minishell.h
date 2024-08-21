@@ -32,7 +32,7 @@ void exec_cd(char **commande, char **envp);
 void exec_pwd(char **commande);
 char *print_prompt(char **envp);
 char *ft_getenv(char **envp, char *var);
-char	*ft_strjoin(char const *s1, char const *s2, int flag);
+char	*ft_strjoin(char const *s1, char const *s2, int flag, int size);
 int ft_strcmp(char *s1, char *s2);
 
 
