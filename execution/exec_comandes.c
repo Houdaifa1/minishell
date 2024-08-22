@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 int ft_strcmp(char *s1, char *s2)
 {
     int i;
@@ -22,6 +21,7 @@ void exec_simple_commande(t_data *commande, char **envp)
     else if (ft_strcmp(commande->argumment[0], "cd") == 0)
         exec_cd(commande->argumment, envp);
 }
+
 void exec_commandes(t_data *commandes, char **envp)
 {
     if (commandes->next == NULL && commandes != NULL)

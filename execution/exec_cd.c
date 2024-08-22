@@ -43,60 +43,58 @@ char *ft_getenv(char **envp, char *var)
     }
     return (NULL);
 }
-int go_home(char **commande, char **envp, char *home, char *join)
+char *go_home(char **commande, char **envp, char *home, char *join)
 {
-    int flag;
-
-    flag = 1;
-    home = getenv("HOME");
+    home = ft_getenv(envp, "HOME");
     if (commande[1] == NULL || (commande[1][0] == '-' && commande[1][1] == '-' && commande[1][2] == '\0'))
     {
         if (home == NULL)
-            flag = 0;
+            return (NULL);
         if (chdir(home) != 0)
             printf("%s : No such directory\n", home);
-        flag = 0;
+        else
+            return (home);
     }
     else if (commande[1][0] == '~')
     {
         if (home == NULL)
-            flag = 0;
+            return (NULL);
         join = ft_strjoin(home, &commande[1][1], 1, 1);
         if (chdir(join) != 0)
             printf("%s : No such directory\n", commande[1]);
-        flag = 0;
+        else
+        {
+            free(home);
+            return (join);
+        }
     }
-    // if (home != NULL)
-    //     free(home);
-    if (join != NULL)
-        free(join);
-    return (flag);
+    free(home);
+    return (NULL);
 }
 
 void exec_cd(char **commande, char **envp)
 {
-    char *old_pwd;
-    int flag;
+    char *path;
 
     if (commande[1] != NULL && commande[2] != NULL)
     {
         printf("too many arguments\n");
-        return ;
+        return;
     }
-    flag = go_home(commande, envp, NULL, NULL);
-    if (commande[1] != NULL && commande[1][0] == '-' && commande[1][1] == '\0')
+    else if ((path = go_home(commande, envp, NULL, NULL)) == NULL)
     {
-        old_pwd = ft_getenv(envp, "OLDPWD");
-         //printf("MY_VAR=%s\n", old_pwd = getenv("OLDPWD"));
-        if (old_pwd == NULL)
-            return ;
-        if (chdir(old_pwd) != 0)
-            printf("%s : No such directory\n", old_pwd);
-        return ;
-    }
-    if (flag == 1)
-    {
-        if (chdir(commande[1]) != 0)
+        if (commande[1] != NULL && commande[1][0] != '-' && commande[1][1] != '\0' && (chdir(commande[1]) != 0))
             printf("%s : No such directory\n", commande[1]);
     }
+    // if (commande[1] != NULL && commande[1][0] == '-' && commande[1][1] == '\0')
+    // {
+    //     printf("pwd %s\n", old_pwd);
+    //     if (chdir(old_pwd) != 0)
+    //         printf("%s : No such directory\n", old_pwd);
+    // }
+    if (path != NULL)
+        free(path);
 }
+
+
+
