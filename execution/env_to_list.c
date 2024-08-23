@@ -48,7 +48,7 @@ void ft_create_nodes(t_data **head, char *envp)
         temp->next = new_node; 
     }
 }
-void exec_export(char **commande, char **envp)
+t_env   *env_to_list(char **envp)
 {
     t_env   *env_var;
     int i;
@@ -60,5 +60,6 @@ void exec_export(char **commande, char **envp)
         ft_create_nodes(&env_var, envp[i]);
         i++;
     }
-    ft_free_list2(env_var);
+    //ft_free_list2(env_var);
+    return(env_var);
 }

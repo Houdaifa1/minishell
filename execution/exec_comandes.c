@@ -20,8 +20,8 @@ void exec_simple_commande(t_data *commande, char **envp)
         exec_pwd(commande->argumment);
     else if (ft_strcmp(commande->argumment[0], "cd") == 0)
         exec_cd(commande->argumment, envp);
-    else if (ft_strcmp(commande->argumment[0], "export") == 0)
-        exec_export(commande->argumment, envp);
+    // else if (ft_strcmp(commande->argumment[0], "export") == 0)
+    //     exec_export(commande->argumment, envp);
 }
 
 void exec_commandes(t_data *commandes, char **envp)

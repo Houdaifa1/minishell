@@ -42,7 +42,7 @@ char *print_prompt(char **envp);
 char *ft_getenv(char **envp, char *var);
 char	*ft_strjoin(char const *s1, char const *s2, int flag, int size);
 int ft_strcmp(char *s1, char *s2);
-void exec_export(char **commande, char **envp);
+t_env   *env_to_list(char **envp);
 char *grep_env_value(char *envp, int i);
 void ft_free_list2(t_env *head);
 

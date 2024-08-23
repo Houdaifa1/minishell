@@ -1,6 +1,6 @@
 NAME = minishell
 
-SOURCE = main.c parsing/utils.c parsing/ft_free.c parsing/parsing.c execution/exec_comandes.c execution/exec_echo.c execution/exec_pwd.c execution/prompt_utils.c execution/exec_cd.c execution/exec_export.c
+SOURCE = main.c parsing/utils.c parsing/ft_free.c parsing/parsing.c execution/exec_comandes.c execution/exec_echo.c execution/exec_pwd.c execution/prompt_utils.c execution/exec_cd.c execution/env_to_list.c
 
 CFLAGS = -Wall -Wextra -Werror -w #-fsanitize=address 
 

@@ -23,10 +23,11 @@ void print_use_list(t_data *head) // for testing
 int main(int arc, char **arv, char **envp)
 {
     t_data *data;
+    t_env   *env_var;
     char *input;
     char *temp;
 
-
+    env_var = env_to_list(envp);
     data = NULL;
     while (1)
     {
@@ -45,4 +46,3 @@ int main(int arc, char **arv, char **envp)
         free(input);
     }
 }
-
