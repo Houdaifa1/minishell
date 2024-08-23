@@ -30,13 +30,6 @@ int main(int arc, char **arv, char **envp)
     data = NULL;
     while (1)
     {
-        // int y = 0;
-        // while(envp[y] != NULL)
-        // {
-        //     printf("%s\n", envp[y]);
-        //     y++;
-        // }
-        // printf("MY_VAR=%s\n", getenv("OLDPWD"));
         input = readline(temp = print_prompt(envp));
         if (input[0] != '\0')
         {
@@ -46,7 +39,6 @@ int main(int arc, char **arv, char **envp)
                 exec_commandes(data, envp);  
             }
         }
-        //print_use_list(data);
         ft_free_list(data); 
         data = NULL;
         free(temp);

@@ -15,6 +15,14 @@ typedef struct echo
     struct data *next;
 }   t_data;
 
+typedef struct env_var
+{
+    char *var;
+    char *val;
+    struct env_var *next;
+
+} t_env;
+
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
 void ft_free_list(t_data *head);
@@ -34,6 +42,9 @@ char *print_prompt(char **envp);
 char *ft_getenv(char **envp, char *var);
 char	*ft_strjoin(char const *s1, char const *s2, int flag, int size);
 int ft_strcmp(char *s1, char *s2);
+void exec_export(char **commande, char **envp);
+char *grep_env_value(char *envp, int i);
+void ft_free_list2(t_env *head);
 
 
 #endif

@@ -9,7 +9,6 @@ char *grep_env_value(char *envp, int i)
 
     while (envp[j])
         j++;
-
     value = malloc(j - i + 1);
     j = 0;
     while (envp[i])
