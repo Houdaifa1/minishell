@@ -31,13 +31,15 @@ int main(int arc, char **arv, char **envp)
     data = NULL;
     while (1)
     {
-        input = readline(temp = print_prompt(envp));
+        
+        input = readline(temp = print_prompt(env_var));
         if (input[0] != '\0')
         {
             if (parse_line(&data, input) == 0)
             {
                 add_history(input);
-                exec_commandes(data, envp);  
+                
+                exec_commandes(data, env_var);  
             }
         }
         ft_free_list(data); 
@@ -45,4 +47,5 @@ int main(int arc, char **arv, char **envp)
         free(temp);
         free(input);
     }
+   ft_free_list2(env_var);
 }

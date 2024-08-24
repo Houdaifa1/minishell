@@ -28,7 +28,7 @@ char	*ft_strjoin(char const *s1, char const *s2, int flag, int size)
 	return (join);
 }
 
-char *print_prompt(char **envp)
+char *print_prompt(t_env *envp)
 {
     char *home;
     char path[PATH_MAX];
@@ -49,7 +49,5 @@ char *print_prompt(char **envp)
 		else if (path != NULL)
     		prompt = ft_strjoin("minishell :", path, 0, 4);
 	}
-	if (home != NULL)
-		free(home);
     return(prompt);
 }

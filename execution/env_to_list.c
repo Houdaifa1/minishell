@@ -60,6 +60,5 @@ t_env   *env_to_list(char **envp)
         ft_create_nodes(&env_var, envp[i]);
         i++;
     }
-    //ft_free_list2(env_var);
     return(env_var);
 }

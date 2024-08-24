@@ -21,28 +21,28 @@ char *grep_env_value(char *envp, int i)
     return (value);
 }
 
-char *ft_getenv(char **envp, char *var)
+char *ft_getenv(t_env *envp, char *var)
 {
     int j;
     int i;
 
     j = 0;
-    while (envp[j] != NULL)
+    while (envp != NULL)
     {
         i = 0;
-        while (envp[j][i] && var[i])
+        while (envp->var[i] && var[i])
         {
-            if (envp[j][i] != var[i])
+            if (envp->var[i] != var[i])
                 break;
             i++;
         }
-        if (var[i] == '\0' && envp[j][i] == '=')
-            return (grep_env_value(envp[j], i + 1));
-        j++;
+        if (var[i] == '\0' && envp->var[i] == '=')
+            return (envp->val);
+        envp = envp->next;
     }
     return (NULL);
 }
-char *go_home(char **commande, char **envp, char *home, char *join)
+char *go_home(char **commande, t_env *envp, char *home, char *join)
 {
     home = ft_getenv(envp, "HOME");
     if (commande[1] == NULL || (commande[1][0] == '-' && commande[1][1] == '-' && commande[1][2] == '\0'))
@@ -61,17 +61,12 @@ char *go_home(char **commande, char **envp, char *home, char *join)
         join = ft_strjoin(home, &commande[1][1], 1, 1);
         if (chdir(join) != 0)
             printf("%s : No such directory\n", commande[1]);
-        else
-        {
-            free(home);
-            return (join);
-        }
+        return (join);
     }
-    free(home);
     return (NULL);
 }
 
-void exec_cd(char **commande, char **envp)
+void exec_cd(char **commande, t_env *envp)
 {
     char *path;
 
@@ -82,16 +77,10 @@ void exec_cd(char **commande, char **envp)
     }
     else if ((path = go_home(commande, envp, NULL, NULL)) == NULL)
     {
-        if (commande[1] != NULL && commande[1][0] != '-' && commande[1][1] != '\0' && (chdir(commande[1]) != 0))
+        if (commande[1] != NULL && commande[1][0] != '~' && chdir(commande[1]) != 0)
             printf("%s : No such directory\n", commande[1]);
     }
-    // if (commande[1] != NULL && commande[1][0] == '-' && commande[1][1] == '\0')
-    // {
-    //     printf("pwd %s\n", old_pwd);
-    //     if (chdir(old_pwd) != 0)
-    //         printf("%s : No such directory\n", old_pwd);
-    // }
-    if (path != NULL)
+    if (commande[1] != NULL && commande[1][0] == '~' && path != NULL)
         free(path);
 }
 
