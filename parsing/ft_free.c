@@ -26,14 +26,14 @@ void ft_free_list(t_data *head)
 void ft_free_list2(t_env *head)
 {
     t_env *temp;
-    int i;
 
     while (head)
     {
         temp = head;
         head = head->next;
         free(temp->var);
-        free(temp->val);
+        if (temp->val)
+            free(temp->val);
         free(temp);
     }
 }

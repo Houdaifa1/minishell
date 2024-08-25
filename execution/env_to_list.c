@@ -11,11 +11,11 @@ t_env *ft_one_node(char *envp)
     if (!node)
         return(NULL);
     i = 0;
-    while(envp[i] != '=')
+    while(envp[i] != '=' && envp[i] != '\0')
         i++;
     temp = malloc(i + 2);
     i = 0;
-    while(envp[i] != '=')
+    while(envp[i] != '=' && envp[i] != '\0')
     {
         temp[i] = envp[i];
         i++;
@@ -28,6 +28,19 @@ t_env *ft_one_node(char *envp)
     free(temp);
     return(node);
 }
+t_env *ft_one_node2(char *envp)
+{
+    t_env *node;
+
+    node = malloc(sizeof(t_env));
+    if (!node)
+        return(NULL);
+    node->var = ft_strdup(envp);
+    node->val = malloc(sizeof(NULL));
+    node->val =  NULL;
+    node->next = NULL;
+    return(node);
+}
 
 void ft_create_nodes(t_data **head, char *envp)
 {
@@ -35,7 +48,6 @@ void ft_create_nodes(t_data **head, char *envp)
     t_env  *new_node;
     
     temp = *head;
-    
     new_node = ft_one_node(envp);
     if (temp == NULL)
     {

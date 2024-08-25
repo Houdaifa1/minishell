@@ -38,8 +38,7 @@ int main(int arc, char **arv, char **envp)
             if (parse_line(&data, input) == 0)
             {
                 add_history(input);
-                
-                exec_commandes(data, env_var);  
+                exec_commandes(data, &env_var);  
             }
         }
         ft_free_list(data); 
@@ -47,5 +46,5 @@ int main(int arc, char **arv, char **envp)
         free(temp);
         free(input);
     }
-   ft_free_list2(env_var);
+    ft_free_list2(env_var);
 }
