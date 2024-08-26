@@ -31,7 +31,8 @@ void ft_free_list2(t_env *head)
     {
         temp = head;
         head = head->next;
-        free(temp->var);
+        if (temp->var)
+            free(temp->var);
         if (temp->val)
             free(temp->val);
         free(temp);

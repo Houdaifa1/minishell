@@ -26,6 +26,8 @@ void exec_simple_commande(t_data *commande, t_env **envp)
         exec_env(commande->argumment, *envp);
     else if (ft_strcmp(commande->argumment[0], "unset") == 0)
         exec_unset(commande->argumment, envp);
+    else if (ft_strcmp(commande->argumment[0], "exit") == 0)
+        exec_exit(commande->argumment, envp);
 }
 
 void exec_commandes(t_data *commandes, t_env **envp)

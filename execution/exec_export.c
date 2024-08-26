@@ -26,7 +26,22 @@ int ft_isalpha(int c, int i)
     }
     return (1);
 }
-int ft_contain_equal(char *commande)
+char *remove_plus(char *var)
+{
+    int i;
+    char *cpy;
+
+    i = 0;
+    while(var[i] != '+')
+    {
+        cpy[i] = var[i];
+        i++;
+    }
+    cpy[i] = '=';
+    cpy[i + 1] = '\0';
+    return(cpy);
+}
+int ft_contain_plus(char *commande)
 {
     int i;
     int check;
@@ -35,7 +50,7 @@ int ft_contain_equal(char *commande)
     check = 1;
     while (commande[i])
     {
-        if (commande[i] == '=')
+        if (commande[i] == '+')
             check = 0;
         i++;
     }
@@ -111,6 +126,14 @@ int ft_update_val(t_env **envp, char *var, char *val)
 }
 void create_env(t_env **temp, t_env **envp, t_env *check)
 {
+    char *hold;
+
+    if (ft_contain_plus(check->var) == 0)
+    {
+        hold = check->var;
+        check->var = ft_strdup(remove_plus(hold));
+        free(hold);
+    }
     if ((*temp) == NULL)
         (*envp) = check;
     else
@@ -130,7 +153,6 @@ void add_to_env(t_env **temp, t_env **envp, t_env *node)
     {
         if (ft_strcmp2(iterate->var, node->var) == 0)
         {
-            printf("dsqd\n");
             if (iterate->val == NULL)
             {
                 iterate->var = ft_strjoin(hold = iterate->var, "=", 1, 1);

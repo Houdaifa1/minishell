@@ -53,6 +53,7 @@ void ft_print_env(t_env *envp);
 t_env *ft_one_node2(char *envp);
 int ft_update_val(t_env **envp, char *var, char *val);
 void exec_unset(char **commande, t_env **envp);
+void exec_exit(char **commande, t_env **envp);
 
 
 #endif

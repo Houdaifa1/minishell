@@ -44,7 +44,6 @@ int main(int arc, char **arv, char **envp)
         ft_free_list(data); 
         data = NULL;
         free(temp);
-        free(input);
+        //free(input);
     }
-    ft_free_list2(env_var);
 }
