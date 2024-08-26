@@ -48,7 +48,8 @@ void exec_echo(char **commande)
     while(commande[j] != NULL)
     {
         ft_putstr(commande[j]);
-        ft_putstr(" ");
+        if (commande[j + 1] != NULL)
+            ft_putstr(" ");
         j++;
     }
     if (n == 1)
