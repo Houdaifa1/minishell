@@ -27,7 +27,7 @@ typedef struct env_var
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
 void ft_free_list(t_data *head);
-int parse_line(t_data **data, char *input);
+int  parse_line(t_data **data, char *input, t_env *env_var);
 char **split_line_to_args(char *input);
 char *strsplit_by_pipe(char **str);
 int	ft_count_args(char *input);
