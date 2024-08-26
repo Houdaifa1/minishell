@@ -2,38 +2,6 @@
 
 int x = 0;
 
-int ft_is_digits(char c)
-{
-    if (c > 47 && c < 58)
-        return (1);
-    else
-        return (0);
-}
-
-
-char *ft_strjoinee(char *s1, const char *s2)
-{
-    size_t  len1;
-    size_t  len2;
-
-    len1 = 0;
-    len2 = 0;
-    if (s1 != NULL)
-        len1 = strlen(s1);
-    if (s2 != NULL)
-        len2 = strlen(s2);
-    char *result = malloc(len1 + len2 + 1);
-    if (!result)
-        return NULL;
-    if (s1 != NULL)
-        strcpy(result, s1);
-    if (s2 != NULL)
-        strcpy(result + len1, s2);
-    free(s1);
-    return (result);
-}
-
-
 char **ft_environment_variables(char **arguments, t_env *env_var)
 {
     int i;
@@ -60,7 +28,7 @@ char **ft_environment_variables(char **arguments, t_env *env_var)
             {
                 f++;
                 j = 0;
-                while (arguments[i][f] != '\0' && arguments[i][f] != ' ' && arguments[i][f] != '$' && arguments[i][f] != '\'' && arguments[i][f] != '\"' && j < sizeof(tmp) - 1)
+                while (arguments[i][f] != '\0' && arguments[i][f] != ' ' && ft_is_valid(arguments[i][f]) == 1 && arguments[i][f] != '$' && j < sizeof(tmp) - 1)
                 {
                     tmp[j] = arguments[i][f];
                     j++;

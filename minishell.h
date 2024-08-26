@@ -25,6 +25,9 @@ typedef struct env_var
 
 
 char	*ft_strdup(const char *s1);
+char *ft_strjoinee(char *s1, const char *s2);
+int ft_is_valid(char c);
+int ft_is_digits(char c);
 size_t	ft_strlen(const char *s);
 void ft_free_list(t_data *head);
 int  parse_line(t_data **data, char *input, t_env *env_var);

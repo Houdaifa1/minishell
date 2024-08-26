@@ -2,6 +2,7 @@ NAME = minishell
 
 PARSING =	main.c \
 			parsing/utils.c \
+			parsing/utils_expansion.c \
 			parsing/ft_free.c parsing/parsing.c \
 
 EXECUTION =	execution/exec_echo.c execution/exec_pwd.c   \
@@ -12,7 +13,7 @@ EXECUTION =	execution/exec_echo.c execution/exec_pwd.c   \
 			
 			
 
-CFLAGS = -Wall -Wextra -Werror -w #-fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror -w -fsanitize=address 
 
 
 all: $(NAME)
