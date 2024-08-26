@@ -56,7 +56,7 @@ char **ft_environment_variables(char **arguments, t_env *env_var)
         {
             if (arguments[i][f] == '$' && ft_is_digits(arguments[i][f + 1]) == 1)
                 f = f + 2;
-            else if (arguments[i][f] == '$' && arguments[i][f + 1] != '$' && x == 1 && arguments[i][f + 1] != '\0')
+            else if (arguments[i][f] == '$' && arguments[i][f + 1] != '$' && x != 1 && arguments[i][f + 1] != '\0')
             {
                 f++;
                 j = 0;
@@ -132,9 +132,9 @@ char **split_line_to_args(char *input)
         if ((input[i] == '\'' || input[i] == '"') && (input[i] == quote || quote == 0) && check == 1)
         {
             if (input[i] == '\"')
-                x = 1;
-            else
                 x = 0;
+            else
+                x = 1;
             if (quote == 0)
                 quote = input[i];
             else if (quote == input[i])
