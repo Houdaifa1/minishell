@@ -112,8 +112,7 @@ int ft_update_val(t_env **envp, char *var, char *val)
         {
             if (val != NULL)
             {
-                if (temp->val != NULL)
-                    free(temp->val);
+                free(temp->val);
                 free(temp->var);
                 temp->var = ft_strdup(var);
                 temp->val = ft_strdup(val);
@@ -157,9 +156,13 @@ void add_to_env(t_env **temp, t_env **envp, t_env *node)
             {
                 iterate->var = ft_strjoin(hold = iterate->var, "=", 1, 1);
                 iterate->val = ft_strdup(node->val);
+
             }
             else
                 iterate->val = ft_strjoin((hold = iterate->val), node->val, 1, 1);
+            free(node->var);
+            free(node->val);
+            free(node);
             free(hold);
             return;
         }
@@ -192,7 +195,11 @@ void exec_export(char **commande, t_env **envp)
                 if (ft_update_val(envp, check->var, check->val) == 0)
                     create_env(&temp, envp, check);
                 else
+                {
+                    free(check->var);
+                    free(check->val);
                     free(check);
+                }
             }
             else if (check_argument(commande[j]) == 2)
                 add_to_env(&temp, envp, ft_one_node(commande[j]));

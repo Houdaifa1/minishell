@@ -24,10 +24,12 @@ int main(int arc, char **arv, char **envp)
 {
     t_data *data;
     t_env   *env_var;
+    t_hold *hold_vars;
     char *input;
     char *temp;
 
     env_var = env_to_list(envp);
+    hold_vars = malloc(sizeof(t_hold));
     data = NULL;
     while (1)
     {
@@ -38,12 +40,14 @@ int main(int arc, char **arv, char **envp)
             if (parse_line(&data, input, env_var) == 0)
             {
                 add_history(input);
-                exec_commandes(data, &env_var);  
+                hold_vars->input = input;
+                hold_vars->temp = temp;
+                exec_commandes(data, &env_var, &data, &hold_vars);  
             }
         }
         ft_free_list(data); 
         data = NULL;
         free(temp);
-        //free(input);
+        free(input);
     }
 }

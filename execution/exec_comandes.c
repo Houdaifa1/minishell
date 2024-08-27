@@ -12,7 +12,7 @@ int ft_strcmp(char *s1, char *s2)
     return(s1[i] - s2[i]);
 }
 
-void exec_simple_commande(t_data *commande, t_env **envp)
+void exec_simple_commande(t_data *commande, t_env **envp, t_data **data, t_hold **hold_vars)
 {
     if (ft_strcmp(commande->argumment[0], "echo") == 0)
         exec_echo(commande->argumment);
@@ -27,11 +27,11 @@ void exec_simple_commande(t_data *commande, t_env **envp)
     else if (ft_strcmp(commande->argumment[0], "unset") == 0)
         exec_unset(commande->argumment, envp);
     else if (ft_strcmp(commande->argumment[0], "exit") == 0)
-        exec_exit(commande->argumment, envp);
+        exec_exit(commande->argumment, envp, data, hold_vars);
 }
 
-void exec_commandes(t_data *commandes, t_env **envp)
+void exec_commandes(t_data *commandes, t_env **envp, t_data **data, t_hold **hold_vars)
 {
     if (commandes->next == NULL && commandes != NULL)
-        exec_simple_commande(commandes, envp);
+        exec_simple_commande(commandes, envp, data, hold_vars);
 }

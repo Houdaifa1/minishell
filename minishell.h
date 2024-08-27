@@ -22,6 +22,13 @@ typedef struct env_var
     struct env_var *next;
 
 } t_env;
+typedef struct hold
+{
+    char *input;
+    char *temp;
+
+} t_hold;
+
 
 
 char	*ft_strdup(const char *s1);
@@ -37,7 +44,7 @@ int	ft_count_args(char *input);
 void	ft_add_node(t_data **head, char **arguments);
 t_data *creat_node(char **arguments);
 int check_qout(char *input);
-void exec_commandes(t_data *commandes, t_env **envp);
+void exec_commandes(t_data *commandes, t_env **envp, t_data **data, t_hold **hold_vars);
 void    exec_echo(char **commande);
 void    ft_putstr(char *str);
 void exec_cd(char **commande, t_env *envp);
@@ -56,7 +63,7 @@ void ft_print_env(t_env *envp);
 t_env *ft_one_node2(char *envp);
 int ft_update_val(t_env **envp, char *var, char *val);
 void exec_unset(char **commande, t_env **envp);
-void exec_exit(char **commande, t_env **envp);
+void exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars);
 
 
 #endif

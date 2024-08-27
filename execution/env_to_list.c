@@ -36,7 +36,6 @@ t_env *ft_one_node2(char *envp)
     if (!node)
         return(NULL);
     node->var = ft_strdup(envp);
-    node->val = malloc(sizeof(NULL));
     node->val =  NULL;
     node->next = NULL;
     return(node);
