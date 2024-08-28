@@ -2,23 +2,24 @@
 
 int x = 0;
 
+
 char **ft_environment_variables(char **arguments, t_env *env_var)
 {
     int i;
     int f;
     int j;
-    int n;
     char *result;
     char tmp[BUFSIZ];
     char *env;
     char str[2];
 
     i = 0;
+    int k;
+    int h = 0;
     while (arguments[i] != NULL)
     {
         f = 0;
         j = 0;
-        n = 0;
         result = NULL;
         while (arguments[i][f] != '\0')
         {
@@ -36,7 +37,7 @@ char **ft_environment_variables(char **arguments, t_env *env_var)
                 }
                 tmp[j] = '\0';
                 env = ft_getenv(env_var, tmp);
-                if (env != NULL)
+                if (env != NULL && env[0] != '\0')
                 {
                     result = ft_strjoinee(result, env);
                 }
@@ -49,11 +50,27 @@ char **ft_environment_variables(char **arguments, t_env *env_var)
                 f++;
             }
         }
-        free(arguments[i]);
-        arguments[i] = result;
-        i++;
+        if (result == NULL && arguments[i][0] != '\0')
+        {
+            free(arguments[i]);
+            k = i;
+            while (arguments[k] != NULL)
+            {
+                arguments[k] = arguments[k + 1];
+                k++;
+            }
+        }
+        else
+        {
+            if (result != NULL)
+            {  
+                free(arguments[i]);
+                arguments[i] = result;
+            }
+            i++;
+        }
     }
-
+    x = 0;
     return arguments;
 }   
 
@@ -97,7 +114,13 @@ char **split_line_to_args(char *input)
     check = ft_check(input);
     while (input[i] != '\0')
     {
-        if ((input[i] == '\'' || input[i] == '"') && (input[i] == quote || quote == 0) && check == 1)
+        if (input[i] == '\"' && input[i + 1] == '\"' && input[i + 2] != '\"' && (input[i + 2] == ' ' || input[i + 2] == '\0') && quote == 0)
+        {
+            args[j] = ft_strdup("");
+            j++;
+            i = i + 1;
+        }
+        else if ((input[i] == '\'' || input[i] == '"') && (input[i] == quote || quote == 0) && check == 1)
         {
             if (input[i] == '\"')
                 x = 0;
@@ -158,6 +181,7 @@ int  parse_line(t_data **data, char *input, t_env *env_var)
     {
         arguments = split_line_to_args(token);
         arguments = ft_environment_variables(arguments, env_var);
+        //printf("argumrnt = '%s'\n", arguments[1]);
         if (arguments[0] != NULL)
             ft_add_node(data, arguments);
         else

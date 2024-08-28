@@ -33,6 +33,10 @@ char *remove_plus(char *var)
 
     i = 0;
     while(var[i] != '+')
+        i++;
+    cpy = malloc(i + 2);
+    i = 0;
+    while(var[i] != '+')
     {
         cpy[i] = var[i];
         i++;
@@ -130,7 +134,7 @@ void create_env(t_env **temp, t_env **envp, t_env *check)
     if (ft_contain_plus(check->var) == 0)
     {
         hold = check->var;
-        check->var = ft_strdup(remove_plus(hold));
+        check->var = remove_plus(check->var);
         free(hold);
     }
     if ((*temp) == NULL)
