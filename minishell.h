@@ -38,7 +38,7 @@ int ft_is_digits(char c);
 size_t	ft_strlen(const char *s);
 void ft_free_list(t_data *head);
 int  parse_line(t_data **data, char *input, t_env *env_var);
-char **split_line_to_args(char *input);
+char **split_line_to_args(char *input,  t_env *env_var);
 char *strsplit_by_pipe(char **str);
 int	ft_count_args(char *input);
 void	ft_add_node(t_data **head, char **arguments);
@@ -64,10 +64,6 @@ t_env *ft_one_node2(char *envp);
 int ft_update_val(t_env **envp, char *var, char *val);
 void exec_unset(char **commande, t_env **envp);
 void exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars);
-int ft_isalpha(int c, int i);
-char *remove_plus(char *var);
-int ft_contain_plus(char *commande);
-int check_argument(char *commande);
-int ft_strcmp2(char *s1, char *s2);
+
 
 #endif
