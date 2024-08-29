@@ -28,6 +28,8 @@ void exec_simple_commande(t_data *commande, t_env **envp, t_data **data, t_hold 
         exec_unset(commande->argumment, envp);
     else if (ft_strcmp(commande->argumment[0], "exit") == 0)
         exec_exit(commande->argumment, envp, data, hold_vars);
+    else
+        exec_non_builtin(commande->argumment, envp, data, hold_vars);
 }
 
 void exec_commandes(t_data *commandes, t_env **envp, t_data **data, t_hold **hold_vars)

@@ -23,7 +23,7 @@ void print_use_list(t_data *head) // for testing
 int main(int arc, char **arv, char **envp)
 {
     t_data *data;
-    t_env   *env_var;
+    t_env *env_var;
     t_hold *hold_vars;
     char *input;
     char *temp;
@@ -33,8 +33,8 @@ int main(int arc, char **arv, char **envp)
     data = NULL;
     while (1)
     {
-        
-        input = readline(temp = print_prompt(env_var));
+
+        input = readline(temp = print_prompt(env_var, NULL, NULL));
         if (input[0] != '\0')
         {
             if (parse_line(&data, input, env_var) == 0)
@@ -42,10 +42,10 @@ int main(int arc, char **arv, char **envp)
                 add_history(input);
                 hold_vars->input = input;
                 hold_vars->temp = temp;
-                exec_commandes(data, &env_var, &data, &hold_vars);  
+                exec_commandes(data, &env_var, &data, &hold_vars);
             }
         }
-        ft_free_list(data); 
+        ft_free_list(data);
         data = NULL;
         free(temp);
         free(input);

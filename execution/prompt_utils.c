@@ -28,7 +28,7 @@ char	*ft_strjoin(char const *s1, char const *s2, int flag, int size)
 	return (join);
 }
 
-char *print_prompt(t_env *envp)
+char *print_prompt(t_env *envp, char *hold, char *temp)
 {
     char *home;
     char path[PATH_MAX];
@@ -38,16 +38,21 @@ char *print_prompt(t_env *envp)
     getcwd(path, PATH_MAX);
 	home = ft_getenv(envp, "HOME");
 	if (ft_strcmp(path, home) == 0)
-		prompt = ft_strjoin("minishell :", "~", 0, 4);
+		prompt = ft_strjoin("\x1b[1;37m\x1b[1m", "~", 0, 4);
 	else
 	{
 		i = 0;
 		while(home && home[i] && path[i] && home[i] == path[i])
 			i++;
 		if (home && home[i] == '\0')
-			prompt = ft_strjoin("minishell :~", &path[i], 0, 4);
+			prompt = ft_strjoin("\x1b[1;37m\x1b[1m~", &path[i], 0, 4);
 		else if (path != NULL)
-    		prompt = ft_strjoin("minishell :", path, 0, 4);
+			prompt = ft_strjoin("\x1b[1;37m\x1b[1m", path, 0, 4);
 	}
-    return(prompt);
+	temp = prompt;
+	prompt = ft_strjoin(prompt, "\x1b[0m", 1, 1);
+	free(temp);
+	hold = ft_strjoin("\x1b[1;32m\x1b[1mminishell:\x1b[0m", prompt, 1, 1);
+	free(prompt);
+	return(hold);
 }
