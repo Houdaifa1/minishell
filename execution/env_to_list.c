@@ -45,9 +45,16 @@ void ft_create_nodes(t_data **head, char *envp)
 {
     t_env *temp;
     t_env  *new_node;
+    int     i;
     
     temp = *head;
-    new_node = ft_one_node(envp);
+    i = 0;
+    while(envp[i] != '=' && envp[i] != '\0')
+        i++;
+    if (envp[i] == '=')
+        new_node = ft_one_node(envp);
+    else
+        new_node = ft_one_node2(envp);
     if (temp == NULL)
     {
         *head = new_node;
