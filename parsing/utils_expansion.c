@@ -23,6 +23,20 @@ int ft_is_valid(char c)
         return (0);
 }
 
+char    *ft_strcpy(char *dest, const char *src)
+{
+    size_t  i;
+
+    i = 0;
+    while (src[i] != NULL)
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+    return (dest);
+}
+
 char *ft_strjoinee(char *s1, const char *s2)
 {
     size_t  len1;

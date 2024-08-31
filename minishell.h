@@ -30,7 +30,7 @@ typedef struct hold
 } t_hold;
 
 
-
+char    *ft_strcpy(char *dest, const char *src);
 char	*ft_strdup(const char *s1);
 char *ft_strjoinee(char *s1, const char *s2);
 int ft_is_valid(char c);

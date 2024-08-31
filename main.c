@@ -35,10 +35,12 @@ int main(int arc, char **arv, char **envp)
     {
 
         input = readline(temp = print_prompt(env_var, NULL, NULL));
+         printf("input1 %s\n", input);
         if (input[0] != '\0')
         {
-            if (parse_line(&data, input, env_var) == 0)
+            if (parse_line(&data, ft_strdup(input), env_var) == 0)
             {
+                printf("input2 %s\n", input);
                 add_history(input);
                 hold_vars->input = input;
                 hold_vars->temp = temp;

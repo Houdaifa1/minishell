@@ -171,3 +171,30 @@ char	*ft_strdup(const char *s1)
 	dup[j] = '\0';
 	return (dup);
 }
+
+char	*ft_strjoine(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*newstr;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	newstr = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (newstr == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		newstr[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		newstr[i + j] = s2[j];
+		j++;
+	}
+	newstr[i + j] = '\0';
+	return (newstr);
+}
