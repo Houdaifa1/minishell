@@ -48,7 +48,6 @@ char *ft_environment_variables(char *arguments, t_env *env_var)
         }
         else
         {
-
             str[0] = arguments[i];
             str[1] = '\0';
             result = ft_strjoinee(result, str);
@@ -114,14 +113,13 @@ char **split_line_to_args(char *input, t_env *env_var)
     char **args;
     char *env;
     char *env_val;
-    char *env_tmp;
-    char *env_tmp2;
     int i;
     int j;
     char quote;
     char buffer[1024];
     int buf_index;
     int check;
+    int temp_i;
 
     i = 0;
     j = 0;
@@ -131,8 +129,6 @@ char **split_line_to_args(char *input, t_env *env_var)
     if (!args)
         return (NULL);
     check = ft_check(input);
-    env_tmp = NULL;
-    env_tmp2 = NULL;
     while (input[i] != '\0')
     {
         if ((input[i] == '\"' && input[i + 1] == '\"') &&
@@ -161,26 +157,23 @@ char **split_line_to_args(char *input, t_env *env_var)
         else if (input[i] == '$' && (quote == 0 || quote != '\''))
         {
             int temp_i = i + 1;
-            while (input[temp_i] == '"' || input[temp_i] == '\'')
+            while (input[temp_i] == ' ' || input[temp_i] == '\"' || input[temp_i] == '\'')
                 temp_i++;
-
-            if (input[temp_i] == ' ' || input[temp_i] == '\0')
+            if (input[temp_i] == '\0' || input[temp_i] == ' ' || input[temp_i] == '\"' || input[temp_i] == '\'')
             {
-                i = temp_i - 1;
+                buffer[buf_index++] = '$';
             }
             else
             {
                 buffer[buf_index] = '\0';
                 env_val = replace_env_variable(input, &i);
                 env = ft_environment_variables(env_val, env_var);
-
                 if (env != NULL)
                 {
                     ft_strcpy(buffer + buf_index, env);
                     buf_index += ft_strlen(env);
                     free(env);
                 }
-
                 while (input[i] != '\0' && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '$')
                 {
                     buffer[buf_index++] = input[i++];
@@ -198,9 +191,7 @@ char **split_line_to_args(char *input, t_env *env_var)
             }
         }
         else
-        {
             buffer[buf_index++] = input[i];
-        }
         i++;
     }
     if (buf_index > 0)
@@ -208,13 +199,14 @@ char **split_line_to_args(char *input, t_env *env_var)
         buffer[buf_index] = '\0';
         args[j++] = ft_strdup(buffer);
     }
-    if (buf_index == 0)
-    {
-        args[1] = NULL;
-    }
     args[j] = NULL;
     return (args);
 }
+ 
+ // fix the leaks (echo $ ) (echo $ """") (echo hehlo | suu) done
+ // fix the echo (echo "$shfof" jlsdj)
+// search for how the bash handle redirections
+// exam 03
 
 int parse_line(t_data **data, char *input, t_env *env_var)
 {
@@ -233,11 +225,12 @@ int parse_line(t_data **data, char *input, t_env *env_var)
     remaining_input = input;
     while ((token = strsplit_by_pipe(&remaining_input)) != NULL)
     {
+        //printf("token = %s\n", token);
         arguments = split_line_to_args(token, env_var);
         if (arguments[0] != NULL)
             ft_add_node(data, arguments);
         else
             return (1);
-    }
+    };
     return (0);
 }
