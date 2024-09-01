@@ -103,6 +103,46 @@ int check_qout(char *input)
     return (flag);
 }
 
+int	check_redirections(char *input)
+{
+	int	i;
+	int	flag;
+	int	quote;
+
+	i = 0;
+	flag = 0;
+	quote = 0;
+	while (input[i] != '\0')
+	{
+		
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			if (quote == 0)
+			{
+				quote = input[i];
+			}
+			else if (quote == input[i])
+			{
+				quote = 0;
+			}
+		}
+		else if (input[i] == '|' || input[i] == '<' || input[i] == '>' && quote == 0)
+		{
+			i++;
+			while (input[i] != '\0' && input[i] == ' ')
+				i++;
+			if (input[i] == '\0' || input[i] == '|' || input[i] == '<' || input[i] == '>')
+			{
+				flag = 1;
+				break;
+			}
+		}
+		i++;
+	}
+	return (flag);
+
+}
+
 char *strsplit_by_pipe(char **str)
 {
     char	*start;

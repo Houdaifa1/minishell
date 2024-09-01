@@ -35,9 +35,9 @@ int main(int arc, char **arv, char **envp)
     {
 
         input = readline(temp = print_prompt(env_var, NULL, NULL));
-        add_history(input);
         if (input[0] != '\0')
         {
+            add_history(input);
             if (parse_line(&data, input, env_var) == 0)
             {
                 hold_vars->input = input;
