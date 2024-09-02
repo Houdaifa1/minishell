@@ -2,26 +2,26 @@
 
 t_data *creat_node(char **arguments)
 {
-	t_data	*new_node = malloc(sizeof(t_data));
-    if (!new_node)
-        return NULL;
+	t_data *new_node = malloc(sizeof(t_data));
+	if (!new_node)
+		return NULL;
 	new_node->argumment = arguments;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-void	ft_add_node(t_data **head, char **arguments)
+void ft_add_node(t_data **head, char **arguments)
 {
-	t_data	*new_node;
-	t_data	*tmp = *head;
+	t_data *new_node;
+	t_data *tmp = *head;
 
 	new_node = creat_node(arguments);
-    if (!new_node)
-        return;
+	if (!new_node)
+		return;
 	if (*head == NULL)
 	{
 		*head = new_node;
-		return ;
+		return;
 	}
 	else
 	{
@@ -31,14 +31,21 @@ void	ft_add_node(t_data **head, char **arguments)
 	}
 }
 
-int	ft_count_args(char *input)
+int ft_skip_space(char c)
 {
-	int	count;
-	int	i;
-	char	quote;
+	if (c == '\t' || c == '\n' || c == '\v' || c == '\v' || c == '\v' || c == '\f' || c == '\r' || c == ' ')
+		return (1);
+	return (0);
+}
+
+int ft_count_args(char *input)
+{
+	int count;
+	int i;
+	char quote;
 
 	count = 0;
-	i  = 0;
+	i = 0;
 	quote = 0;
 	while (input[i] != '\0')
 	{
@@ -46,19 +53,19 @@ int	ft_count_args(char *input)
 		{
 			if (quote == 0)
 				quote = input[i];
-			
+
 			else if (quote == input[i])
 			{
 				quote = 0;
 			}
 			i++;
 		}
-		else if (input[i] == ' ' && quote == 0)
+		else if (ft_skip_space(input[i]) == 1 && quote == 0)
 		{
-			while (input[i] == ' ')
+			while (ft_skip_space(input[i]) == 1)
 				i++;
-            if (input[i] == '\0')
-                break;
+			if (input[i] == '\0')
+				break;
 			count++;
 		}
 		else
@@ -69,122 +76,115 @@ int	ft_count_args(char *input)
 
 int check_qout(char *input)
 {
-    int i;
-    int flag;
-    int quote;
-	int	count;
+	int i;
+	int flag;
+	int quote;
+	int count;
 
-    i = 0;
-    flag = 0;
-    quote = 0;
+	i = 0;
+	flag = 0;
+	quote = 0;
 	count = 0;
-    while (input[i] != '\0')
-    {
-        if (input[i] == '\'' || input[i] == '"')
-        {
-            if (quote == 0)
-            {
-                quote = input[i];
-                flag = 1;
-            }
-            else if (quote == input[i])
-            {
-                quote = 0;
-                flag = 0;
-            }
-        }
+	while (input[i] != '\0')
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			if (quote == 0)
+			{
+				quote = input[i];
+				flag = 1;
+			}
+			else if (quote == input[i])
+			{
+				quote = 0;
+				flag = 0;
+			}
+		}
 		else if (input[i] == '|' && quote == 0)
 		{
 			if (input[i] == '|' && input[i + 1] == '|')
 				return (1);
 		}
-        i++;
-    }
-    return (flag);
+		i++;
+	}
+	return (flag);
 }
 
-int	check_redirections(char *input)
+int check_redirections(char *input)
 {
-	int	i;
-	int	flag;
-	int	quote;
+	int i;
+	int quote;
 
 	i = 0;
-	flag = 0;
 	quote = 0;
+	while (input[i] != '\0' && ft_skip_space(input[i]) == 1)
+		i++;
+	if (input[i] == '|')
+		return (1);
 	while (input[i] != '\0')
 	{
-		
 		if (input[i] == '\'' || input[i] == '\"')
 		{
 			if (quote == 0)
-			{
 				quote = input[i];
-			}
 			else if (quote == input[i])
-			{
 				quote = 0;
-			}
 		}
 		else if (input[i] == '|' || input[i] == '<' || input[i] == '>' && quote == 0)
 		{
 			i++;
-			while (input[i] != '\0' && input[i] == ' ')
+			while (input[i] != '\0' && ft_skip_space(input[i]) == 1)
 				i++;
 			if (input[i] == '\0' || input[i] == '|' || input[i] == '<' || input[i] == '>')
-			{
-				flag = 1;
-				break;
-			}
+				return (1);
 		}
 		i++;
 	}
-	return (flag);
-
+	return (0);
 }
 
 char *strsplit_by_pipe(char **str)
 {
-    char	*start;
-    char	*pipe_pos;
-    char	quote;
-    int	i;
+	char *start;
+	char *pipe_pos;
+	char quote;
+	int i;
 
 	start = *str;
 	pipe_pos = NULL;
 	quote = 0;
 	i = 0;
-    if (start == NULL)
-        return NULL;
-    while (start[i] != '\0')
-    {
-        if (start[i] == '\'' || start[i] == '"')
-        {
-            if (quote == 0)
-                quote = start[i];
-            else if (quote == start[i])
-                quote = 0;
-        }
-        else if (start[i] == '|' && quote == 0)
-        {
-            pipe_pos = &start[i];
-            break;
-        }
-        i++;
-    }
-    if (pipe_pos != NULL)
-    {
-        *pipe_pos = '\0';
-        *str = pipe_pos + 1;
-    }
-    else
-        *str = NULL;
-    return (start);
+	if (start == NULL)
+		return NULL;
+	while (start[i] != '\0')
+	{
+		if (start[i] == '\'' || start[i] == '"')
+		{
+			if (quote == 0)
+				quote = start[i];
+			else if (quote == start[i])
+				quote = 0;
+		}
+		else if (start[i] == '|' && quote == 0)
+		{
+			pipe_pos = &start[i];
+			break;
+		}
+		i++;
+	}
+	if (pipe_pos != NULL)
+	{
+		*pipe_pos = '\0';
+		*str = pipe_pos + 1;
+	}
+	else
+		*str = NULL;
+	return (start);
 }
 
-size_t	ft_strlen(const char *s)
+size_t ft_strlen(const char *s)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -194,12 +194,12 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
+char *ft_strdup(const char *s1)
 {
-	int		j;
-	char	*dup;
+	int j;
+	char *dup;
 
-	dup = malloc ((ft_strlen(s1) + 1) * sizeof(char));
+	dup = malloc((ft_strlen(s1) + 1) * sizeof(char));
 	if (dup == NULL)
 		return (NULL);
 	j = 0;
@@ -212,11 +212,11 @@ char	*ft_strdup(const char *s1)
 	return (dup);
 }
 
-char	*ft_strjoine(char const *s1, char const *s2)
+char *ft_strjoine(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	j;
-	char	*newstr;
+	size_t i;
+	size_t j;
+	char *newstr;
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);

@@ -190,7 +190,7 @@ char **split_line_to_args(char *input, t_env *env_var)
                 i--;
             }
         }
-        else if (input[i] == ' ' && quote == 0)
+        else if ((ft_skip_space(input[i]) == 1) && quote == 0)
         {
             if (buf_index > 0)
             {
@@ -208,6 +208,8 @@ char **split_line_to_args(char *input, t_env *env_var)
         buffer[buf_index] = '\0';
         args[j++] = ft_strdup(buffer);
     }
+    // else if (buf_index == 0)
+    //     args[1] = NULL;
     args[j] = NULL;
     return (args);
 }
