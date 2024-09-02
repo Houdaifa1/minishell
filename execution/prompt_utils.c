@@ -52,7 +52,10 @@ char *print_prompt(t_env *envp, char *hold, char *temp)
 	temp = prompt;
 	prompt = ft_strjoin(prompt, "\x1b[0m", 1, 1);
 	free(temp);
-	hold = ft_strjoin("\x1b[1;32m\x1b[1mminishell:\x1b[0m", prompt, 1, 1);
+	if (exit_code == 0)
+		hold = ft_strjoin("\x1b[1;32m\x1b[1mminishell:\x1b[0m", prompt, 1, 1);
+	else
+		hold = ft_strjoin("\x1b[1;31m\x1b[1mminishell:\x1b[0m", prompt, 1, 1);
 	free(prompt);
 	return(hold);
 }

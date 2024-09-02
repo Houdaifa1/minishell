@@ -20,5 +20,8 @@ void exec_env(char **commande, t_env *envp)
         ft_print_env(envp);
     }
     else
+    {
         printf("env: ‘%s’: No such file or directory\n", commande[1]);
+        exit_code = 127;
+    }
 }

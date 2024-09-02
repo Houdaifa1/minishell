@@ -54,4 +54,5 @@ void exec_echo(char **commande)
     }
     if (n == 1)
         ft_putstr("\n");
+    exit_code = 0;
 }

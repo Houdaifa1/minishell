@@ -109,7 +109,10 @@ void exec_export(char **commande, t_env **envp)
             else if (check_argument(commande[j]) == 2)
                 add_to_env(&temp, envp, ft_one_node(commande[j]));
             else
+            {
                 printf("export: `%s': not a valid identifier\n", commande[j]);
+                exit_code = 1;
+            }
             j++;
         }
     }

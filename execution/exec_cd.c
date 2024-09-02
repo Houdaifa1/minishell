@@ -50,7 +50,10 @@ char *go_home(char **commande, t_env *envp, char *home, char *join)
         if (home == NULL)
             return (NULL);
         if (chdir(home) != 0)
+        {
             printf("cd: %s: No such file or directory\n", home);
+            exit_code = 1;
+        }
         else
             return (home);
     }
@@ -60,7 +63,10 @@ char *go_home(char **commande, t_env *envp, char *home, char *join)
             return (NULL);
         join = ft_strjoin(home, &commande[1][1], 1, 1);
         if (chdir(join) != 0)
+        {
             printf("cd: %s: No such file or directory\n", commande[1]);
+            exit_code = 1;
+        }
         return (join);
     }
     return (NULL);
@@ -73,12 +79,16 @@ void exec_cd(char **commande, t_env *envp)
     if (commande[1] != NULL && commande[2] != NULL)
     {
         printf("too many arguments\n");
+        exit_code = 1;
         return;
     }
     else if ((path = go_home(commande, envp, NULL, NULL)) == NULL)
     {
         if (commande[1] != NULL && commande[1][0] != '~' && chdir(commande[1]) != 0)
+        {  
             printf("cd: %s: No such file or directory\n", commande[1]);
+            exit_code = 1;
+        }
     }
     if (commande[1] != NULL && commande[1][0] == '~' && path != NULL)
         free(path);

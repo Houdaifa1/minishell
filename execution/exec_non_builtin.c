@@ -74,6 +74,7 @@ void exec_non_builtin(char **commande, t_env **envp, t_data **data, t_hold **hol
     int pid;
     char **paths;
     char **envp_arr;
+    int status;
 
     pid = fork();
     if (pid == 0)
@@ -86,10 +87,13 @@ void exec_non_builtin(char **commande, t_env **envp, t_data **data, t_hold **hol
                 printf("command '%s' not found\n", commande[0]);  
             else
                 printf("%s: command not found\n", commande[0]);
+            exit(127);
         }
-        ft_free_arr(envp_arr);
         ft_free_arr(paths);
+        ft_free_arr(envp_arr);
         exit(0);
     }
-    wait();
+    waitpid(pid, &status, 0);
+    exit_code = WEXITSTATUS(status);
 }
+

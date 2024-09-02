@@ -31,6 +31,8 @@ typedef struct hold
 
 } t_hold;
 
+extern int exit_code;
+
 int ft_skip_space(char c);
 int	check_redirections(char *input);
 char    *ft_strcpy(char *dest, const char *src);
@@ -76,5 +78,6 @@ void    exec_non_builtin(char **comande, t_env **envp, t_data **data, t_hold **h
 char    **ft_split(char const *s, char c);
 void    exec_with_pipes(t_env **envp, t_data **data, t_hold **hold_vars);
 void    exec_simple_commande(char **argumment, t_env **envp, t_data **data, t_hold **hold_vars);
+void	ft_putstr_fd(char const *str);
 
 #endif

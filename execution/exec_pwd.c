@@ -8,7 +8,8 @@ void exec_pwd(char **commande)
     {
         if (commande[1][1] != '-' || commande[1][2] != '\0')
         {
-            perror("pwd takes no option\n");
+            ft_putstr_fd("pwd takes no option\n");
+            exit_code = 2;
             return ;
         }
     }

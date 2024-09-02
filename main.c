@@ -20,6 +20,8 @@ void print_use_list(t_data *head) // for testing
     }
 }
 
+int exit_code ;
+
 int main(int arc, char **arv, char **envp)
 {
     t_data *data;
@@ -33,8 +35,8 @@ int main(int arc, char **arv, char **envp)
     data = NULL;
     while (1)
     {
-
         input = readline(temp = print_prompt(env_var, NULL, NULL));
+        exit_code = 0;
         if (input[0] != '\0')
         {
             add_history(input);
