@@ -140,6 +140,15 @@ char **split_line_to_args(char *input, t_env *env_var)
             i += 2;
             continue;
         }
+        if ((input[i] == '\'' && input[i + 1] == '\'') &&
+            (input[i + 2] != '\'' || input[i + 2] == '\0') &&
+            (input[i + 2] == ' ' || input[i + 2] == '\0') &&
+            quote == 0 && buf_index == 0)
+        {
+            args[j++] = ft_strdup("");
+            i += 2;
+            continue;
+        }
         if ((input[i] != '\'' && input[i] != '"') && quote == 0 && buf_index == 0)
             x = 2;
         if ((input[i] == '\'' || input[i] == '"') && (input[i] == quote || quote == 0) && check == 1)
@@ -199,8 +208,6 @@ char **split_line_to_args(char *input, t_env *env_var)
         buffer[buf_index] = '\0';
         args[j++] = ft_strdup(buffer);
     }
-    // else if (buf_index == 0)
-    //     args[1] = NULL;
     args[j] = NULL;
     return (args);
 }

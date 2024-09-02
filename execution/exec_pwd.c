@@ -8,7 +8,7 @@ void exec_pwd(char **commande)
     {
         if (commande[1][1] != '-' || commande[1][2] != '\0')
         {
-            printf("pwd takes no option\n");
+            perror("pwd takes no option\n");
             return ;
         }
     }

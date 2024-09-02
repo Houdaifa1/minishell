@@ -81,7 +81,12 @@ void exec_non_builtin(char **commande, t_env **envp, t_data **data, t_hold **hol
         paths = ft_split(ft_getenv(*envp, "PATH"), ':');
         envp_arr = convert_envp_to_arr(*envp);
         if (test_paths(commande, paths, envp_arr) == 1)
-            printf("%s: command not found\n", commande[0]);
+        {
+            if (commande[0][0] == '\0')
+                printf("command '%s' not found\n", commande[0]);  
+            else
+                printf("%s: command not found\n", commande[0]);
+        }
         ft_free_arr(envp_arr);
         ft_free_arr(paths);
         exit(0);
