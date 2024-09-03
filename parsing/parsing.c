@@ -21,18 +21,29 @@ char *ft_environment_variables(char *arguments, t_env *env_var)
     char tmp[BUFSIZ];
     char *env;
     char str[2];
+    char *status;
 
     i = 0;
     j = 0;
+    status = ft_itoa(exit_code);
     result = NULL;
     while (arguments[i] != '\0')
     {
         if (arguments[i] == '$' && ft_is_digits(arguments[i + 1]) == 1)
+        {
             i = i + 2;
+            continue;
+        }
+        if (arguments[i] == '$' && arguments[i + 1] == '?')
+        {
+            result = ft_strjoine(result, status);
+            i = i + 2;
+        }
         else if (arguments[i] == '$' && arguments[i + 1] != '$' && (x == 0 || x == 2) && arguments[i + 1] != '\0')
         {
             i++;
             j = 0;
+            printf("enter \n");
             while (arguments[i] != '\0' && arguments[i] != ' ' && ft_is_valid(arguments[i]) == 1 && arguments[i] != '$' && j < sizeof(tmp) - 1)
             {
                 tmp[j] = arguments[i];
@@ -43,8 +54,6 @@ char *ft_environment_variables(char *arguments, t_env *env_var)
             env = ft_getenv(env_var, tmp);
             if (env != NULL)
                 result = ft_strjoinee(result, env);
-            else if (env == NULL && x != 2)
-                result = ft_strjoinee(result, "");
         }
         else
         {
@@ -87,7 +96,7 @@ int ft_check(char *input)
 
 char *replace_env_variable(const char *str, int *skip)
 {
-    char var_name[1024];
+    char var_name[BUFSIZ];
     int var_index;
     char *env;
     char *result;
@@ -99,10 +108,18 @@ char *replace_env_variable(const char *str, int *skip)
         var_name[var_index++] = str[*skip];
         (*skip)++;
     }
-    while (str[*skip] && isalnum(str[*skip]) || str[*skip] == '_')
+    if (str[*skip] == '?')
     {
         var_name[var_index++] = str[*skip];
         (*skip)++;
+    }
+    else
+    {
+        while (str[*skip] && (isalnum(str[*skip]) || str[*skip] == '_'))
+        {
+            var_name[var_index++] = str[*skip];
+            (*skip)++;
+        }
     }
     var_name[var_index] = '\0';
     return (var_name);
@@ -176,6 +193,7 @@ char **split_line_to_args(char *input, t_env *env_var)
             {
                 buffer[buf_index] = '\0';
                 env_val = replace_env_variable(input, &i);
+                printf("dollar = %s\n", env_val);
                 env = ft_environment_variables(env_val, env_var);
                 if (env != NULL)
                 {
@@ -183,6 +201,8 @@ char **split_line_to_args(char *input, t_env *env_var)
                     buf_index += ft_strlen(env);
                     free(env);
                 }
+                else if (env == NULL && x == 0 && buf_index == 0)
+                    args[j++] = ft_strdup("");
                 while (input[i] != '\0' && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '$')
                 {
                     buffer[buf_index++] = input[i++];
@@ -208,8 +228,11 @@ char **split_line_to_args(char *input, t_env *env_var)
         buffer[buf_index] = '\0';
         args[j++] = ft_strdup(buffer);
     }
-    // else if (buf_index == 0)
-    //     args[1] = NULL;
+    if (buf_index == 0 && j == 0)
+    {
+        args[0] = ft_strdup("");
+        j++;
+    }
     args[j] = NULL;
     return (args);
 }

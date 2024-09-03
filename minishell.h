@@ -33,6 +33,8 @@ typedef struct hold
 
 extern int exit_code;
 
+char	*ft_itoa(int n);
+char *ft_strjoine(char const *s1, char const *s2);
 int ft_skip_space(char c);
 int	check_redirections(char *input);
 char    *ft_strcpy(char *dest, const char *src);

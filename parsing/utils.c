@@ -218,8 +218,8 @@ char *ft_strjoine(char const *s1, char const *s2)
 	size_t j;
 	char *newstr;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
+	if (s1 == NULL)
+		return (s2);
 	i = 0;
 	j = 0;
 	newstr = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
