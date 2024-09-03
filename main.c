@@ -36,7 +36,7 @@ int main(int arc, char **arv, char **envp)
     while (1)
     {
         input = readline(temp = print_prompt(env_var, NULL, NULL));
-        exit_code = 0;
+        
         if (input[0] != '\0')
         {
             add_history(input);
@@ -46,6 +46,7 @@ int main(int arc, char **arv, char **envp)
                 hold_vars->temp = temp;
                 exec_commandes(data, &env_var, &data, &hold_vars);
             }
+    
         }
         ft_free_list(data);
         data = NULL;

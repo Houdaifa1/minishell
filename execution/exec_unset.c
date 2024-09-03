@@ -47,6 +47,7 @@ int exec_unset(char **commande, t_env **envp)
 {
 	int i;
 
+	exit_code = 0;
 	i = 1;
 	while (commande[i])
 	{

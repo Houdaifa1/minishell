@@ -76,11 +76,11 @@ int exec_cd(char **commande, t_env *envp)
 {
     char *path;
 
+    exit_code = 0;
     if (commande[1] != NULL && commande[2] != NULL)
     {
         printf("too many arguments\n");
-        exit_code = 1;
-        return (exit_code);
+        return (1);
     }
     else if ((path = go_home(commande, envp, NULL, NULL)) == NULL)
     {

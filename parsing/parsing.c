@@ -193,7 +193,7 @@ char **split_line_to_args(char *input, t_env *env_var)
             {
                 buffer[buf_index] = '\0';
                 env_val = replace_env_variable(input, &i);
-                printf("dollar = %s\n", env_val);
+               // printf("dollar = %s\n", env_val);
                 env = ft_environment_variables(env_val, env_var);
                 if (env != NULL)
                 {

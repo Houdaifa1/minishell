@@ -27,7 +27,7 @@ int exec_simple_commande(char **argumment, t_env **envp, t_data **data, t_hold *
     else if (ft_strcmp(argumment[0], "unset") == 0)
         exit_code = exec_unset(argumment, envp);
     else if (ft_strcmp(argumment[0], "exit") == 0)
-        exec_exit(argumment, envp, data, hold_vars);
+        exit_code = exec_exit(argumment, envp, data, hold_vars);
     else
         exit_code = exec_non_builtin(argumment, envp, data, hold_vars);
     return(exit_code);

@@ -9,11 +9,10 @@ int exec_pwd(char **commande)
         if (commande[1][1] != '-' || commande[1][2] != '\0')
         {
             ft_putstr_fd("pwd takes no option\n");
-            exit_code = 2;
-            return (exit_code);
+            return (2);
         }
     }
     getcwd(path, PATH_MAX);
     printf("%s\n", path);
-    return (exit_code);
+    return (0);
 }

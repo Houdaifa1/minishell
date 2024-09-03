@@ -46,7 +46,7 @@ int ft_isalnum(char *str)
     
     return(0);
 }
-void exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars)
+int exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars)
 {
     int i;
 
@@ -63,7 +63,11 @@ void exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars)
         exit(2);
     }
     else if (commande[1] != NULL && commande[2] != NULL)
+    {
         printf("exit: too many arguments\n");
+        exit_code = 1;
+        return(1);
+    }
     else if (commande[1] != NULL)
     {
         i = ft_atoi(commande[1]);

@@ -70,7 +70,7 @@ void    ft_print_env(t_env *envp);
 t_env   *ft_one_node2(char *envp);
 int     ft_update_val(t_env **envp, char *var, char *val);
 int    exec_unset(char **commande, t_env **envp);
-void    exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars);
+int    exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars);
 int     ft_isalpha(int c, int i);
 char    *remove_plus(char *var);
 int     ft_contain_plus(char *commande);
