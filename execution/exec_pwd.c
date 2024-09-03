@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void exec_pwd(char **commande)
+int exec_pwd(char **commande)
 {
     char path[PATH_MAX];
 
@@ -10,9 +10,10 @@ void exec_pwd(char **commande)
         {
             ft_putstr_fd("pwd takes no option\n");
             exit_code = 2;
-            return ;
+            return (exit_code);
         }
     }
     getcwd(path, PATH_MAX);
     printf("%s\n", path);
+    return (exit_code);
 }

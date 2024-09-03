@@ -69,7 +69,7 @@ char **convert_envp_to_arr(t_env *envp)
     return (envp_arr);
 }
 
-void exec_non_builtin(char **commande, t_env **envp, t_data **data, t_hold **hold_vars)
+int exec_non_builtin(char **commande, t_env **envp, t_data **data, t_hold **hold_vars)
 {
     int pid;
     char **paths;
@@ -95,5 +95,6 @@ void exec_non_builtin(char **commande, t_env **envp, t_data **data, t_hold **hol
     }
     waitpid(pid, &status, 0);
     exit_code = WEXITSTATUS(status);
+    return(exit_code);
 }
 

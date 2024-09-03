@@ -43,7 +43,7 @@ void ft_unset_env(t_env **envp, char *var)
 	}
 }
 
-void exec_unset(char **commande, t_env **envp)
+int exec_unset(char **commande, t_env **envp)
 {
 	int i;
 
@@ -53,4 +53,5 @@ void exec_unset(char **commande, t_env **envp)
 		ft_unset_env(envp, commande[i]);
 		i++;
 	}
+	return(exit_code);
 }

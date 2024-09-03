@@ -75,7 +75,7 @@
 //     while (wait(&status) > 0);
 // }
 
-void create_pipes(char **commande, t_env **env, t_data **data, t_hold **hold_vars, int fd_in, int fd_out)
+int create_pipes(char **commande, t_env **env, t_data **data, t_hold **hold_vars, int fd_in, int fd_out)
 {
     int pid;
 
@@ -96,20 +96,22 @@ void create_pipes(char **commande, t_env **env, t_data **data, t_hold **hold_var
             dup2(fd_out, 1);
             close(fd_out);
         }
-        exec_simple_commande(commande, env, data, hold_vars);
-        exit(0);
+        exit(exec_simple_commande(commande, env, data, hold_vars));
     }
+    return(pid);
 }
 
 void exec_with_pipes(t_env **envp, t_data **data, t_hold **hold_vars)
 {
     t_data *temp;
     int fd[2];
-    int fd_in = 0;
+    int fd_in;
     int status;
+    int pid;
+    int exit_status;
 
     temp = *data;
-    int i = 0;
+    fd_in = 0;
     while (temp)
     {
         if (temp->next != NULL)
@@ -122,7 +124,7 @@ void exec_with_pipes(t_env **envp, t_data **data, t_hold **hold_vars)
         }
         else
             fd[1] = 1;
-        create_pipes(temp->argumment, envp, data, hold_vars, fd_in, fd[1]);
+        pid  = create_pipes(temp->argumment, envp, data, hold_vars, fd_in, fd[1]);
         if (fd_in != 0)
             close(fd_in);
         if (fd[1] != 1)
@@ -130,5 +132,7 @@ void exec_with_pipes(t_env **envp, t_data **data, t_hold **hold_vars)
         fd_in = fd[0];
         temp = temp->next;
     }
+    waitpid(pid, &exit_status, 0);
     while (wait(&status) > 0);
+    exit_code = WEXITSTATUS(exit_status);
 }

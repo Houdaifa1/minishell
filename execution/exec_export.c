@@ -89,7 +89,7 @@ void ft_add_update_env(char *env, t_env **envp, t_env **temp)
         free(check);
     }
 }
-void exec_export(char **commande, t_env **envp)
+int exec_export(char **commande, t_env **envp)
 {
     t_env *temp;
     int j;
@@ -116,4 +116,5 @@ void exec_export(char **commande, t_env **envp)
             j++;
         }
     }
+    return(exit_code);
 }

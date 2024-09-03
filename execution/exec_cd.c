@@ -72,7 +72,7 @@ char *go_home(char **commande, t_env *envp, char *home, char *join)
     return (NULL);
 }
 
-void exec_cd(char **commande, t_env *envp)
+int exec_cd(char **commande, t_env *envp)
 {
     char *path;
 
@@ -80,7 +80,7 @@ void exec_cd(char **commande, t_env *envp)
     {
         printf("too many arguments\n");
         exit_code = 1;
-        return;
+        return (exit_code);
     }
     else if ((path = go_home(commande, envp, NULL, NULL)) == NULL)
     {
@@ -92,6 +92,7 @@ void exec_cd(char **commande, t_env *envp)
     }
     if (commande[1] != NULL && commande[1][0] == '~' && path != NULL)
         free(path);
+    return(exit_code);
 }
 
 
