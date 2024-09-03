@@ -84,9 +84,11 @@ int exec_non_builtin(char **commande, t_env **envp, t_data **data, t_hold **hold
         if (test_paths(commande, paths, envp_arr) == 1)
         {
             if (commande[0][0] == '\0')
-                printf("command '%s' not found\n", commande[0]);  
+                //printf("command '%s' not found\n", commande[0]);
+                ft_print_in_stderr("commande '", commande[0],"': not a valid identifier\n");
             else
-                printf("%s: command not found\n", commande[0]);
+                //printf("%s: command not found\n", commande[0]);
+                ft_print_in_stderr(commande[0],": commande not found\n", "");
             exit(127);
         }
         ft_free_arr(paths);

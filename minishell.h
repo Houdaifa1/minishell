@@ -81,5 +81,6 @@ char    **ft_split(char const *s, char c);
 void    exec_with_pipes(t_env **envp, t_data **data, t_hold **hold_vars);
 int    exec_simple_commande(char **argumment, t_env **envp, t_data **data, t_hold **hold_vars);
 void	ft_putstr_fd(char const *str);
+void ft_print_in_stderr(char *s1, char *s2, char *s3);
 
 #endif

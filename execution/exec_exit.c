@@ -53,7 +53,8 @@ int exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars)
     
     if (commande[1] != NULL && ft_isalnum(commande[1]) == 1)
     {
-        printf("exit: %s: numeric argument required\n", commande[1]);
+        //printf("exit: %s: numeric argument required\n", commande[1]);
+        ft_print_in_stderr("exit: ", commande[1],": numeric argument required\n");
         free((*hold_vars)->input);
         free((*hold_vars)->temp);
         free(*hold_vars);
@@ -64,7 +65,7 @@ int exec_exit(char **commande, t_env **envp, t_data **data, t_hold **hold_vars)
     }
     else if (commande[1] != NULL && commande[2] != NULL)
     {
-        printf("exit: too many arguments\n");
+        ft_putstr_fd("exit: too many arguments\n");
         exit_code = 1;
         return(1);
     }

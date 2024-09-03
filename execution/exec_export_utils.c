@@ -57,7 +57,8 @@ int check_argument(char *commande)
 
     if (commande[0] == '-')
     {
-        printf("export: %s: invalid option\n", commande);
+        //printf("export: %s: invalid option\n", commande);
+        ft_print_in_stderr("export: ", commande,": invalid option\n");    
         return (1);
     }
     if (ft_isalpha(commande[0], 1) == 1)
