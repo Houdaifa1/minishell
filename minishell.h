@@ -8,6 +8,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <string.h>
+# include <fcntl.h>
 #include <errno.h>
 
 typedef struct data
@@ -30,6 +31,7 @@ typedef struct hold
     char *temp;
 
 } t_hold;
+
 
 extern int exit_code;
 
@@ -82,5 +84,6 @@ void    exec_with_pipes(t_env **envp, t_data **data, t_hold **hold_vars);
 int    exec_simple_commande(char **argumment, t_env **envp, t_data **data, t_hold **hold_vars);
 void	ft_putstr_fd(char const *str);
 void ft_print_in_stderr(char *s1, char *s2, char *s3);
+void ft_free_arr(char **paths);
 
 #endif
