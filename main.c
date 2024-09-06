@@ -27,13 +27,15 @@ int main(int arc, char **arv, char **envp)
     t_data *data;
     t_env *env_var;
     t_hold *hold_vars;
+    t_quots quots;
     char *input;
     int saved_stdout;
     int saved_stdin;
     char *temp;
-
+    
     env_var = env_to_list(envp);
     hold_vars = malloc(sizeof(t_hold));
+    quots.x = 0;
     data = NULL;
     while (1)
     {
@@ -43,7 +45,7 @@ int main(int arc, char **arv, char **envp)
         if (input[0] != '\0')
         {
             add_history(input);
-            if (parse_line(&data, input, env_var) == 0)
+            if (parse_line(&data, input, env_var, &quots) == 0)
             {
                 hold_vars->input = input;
                 hold_vars->temp = temp;
@@ -57,6 +59,7 @@ int main(int arc, char **arv, char **envp)
         }
         ft_free_list(data);
         data = NULL;
+        quots.x = 0;
         free(temp);
         free(input);
     }

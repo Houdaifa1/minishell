@@ -25,13 +25,17 @@ typedef struct env_var
 
 } t_env;
 
+typedef struct quot
+{
+    int x;
+} t_quots;
+
 typedef struct hold
 {
     char *input;
     char *temp;
 
 } t_hold;
-
 
 extern int exit_code;
 
@@ -46,8 +50,8 @@ int     ft_is_valid(char c);
 int     ft_is_digits(char c);
 size_t  ft_strlen(const char *s);
 void    ft_free_list(t_data *head);
-int     parse_line(t_data **data, char *input, t_env *env_var);
-char    **split_line_to_args(char *input, t_env *env_var);
+int parse_line(t_data **data, char *input, t_env *env_var,t_quots *quots);
+char **split_line_to_args(char *input, t_env *env_var, t_quots *quots);
 char    *strsplit_by_pipe(char **str);
 int     ft_count_args(char *input);
 void    ft_add_node(t_data **head, char **arguments);

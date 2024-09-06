@@ -1,19 +1,8 @@
 #include "../minishell.h"
 
-int x = 0;
+// int x = 0;
 
-int ft_check_exp(char *str)
-{
-    if (str[0] == '$' && x == 1)
-    {
-        x = 0;
-        return (1);
-    }
-    else
-        return (0);
-}
-
-char *ft_environment_variables(char *arguments, t_env *env_var)
+char *ft_environment_variables(char *arguments, t_env *env_var,t_quots *quots)
 {
     int i;
     int j;
@@ -21,29 +10,18 @@ char *ft_environment_variables(char *arguments, t_env *env_var)
     char tmp[BUFSIZ];
     char *env;
     char str[2];
-    char *status;
 
     i = 0;
     j = 0;
-    status = ft_itoa(exit_code);
     result = NULL;
     while (arguments[i] != '\0')
     {
         if (arguments[i] == '$' && ft_is_digits(arguments[i + 1]) == 1)
-        {
             i = i + 2;
-            continue;
-        }
-        if (arguments[i] == '$' && arguments[i + 1] == '?')
-        {
-            result = ft_strjoine(result, status);
-            i = i + 2;
-        }
-        else if (arguments[i] == '$' && arguments[i + 1] != '$' && (x == 0 || x == 2) && arguments[i + 1] != '\0')
+        else if (arguments[i] == '$' && arguments[i + 1] != '$' && (quots->x == 0 || quots->x == 2) && arguments[i + 1] != '\0')
         {
             i++;
             j = 0;
-            printf("enter \n");
             while (arguments[i] != '\0' && arguments[i] != ' ' && ft_is_valid(arguments[i]) == 1 && arguments[i] != '$' && j < sizeof(tmp) - 1)
             {
                 tmp[j] = arguments[i];
@@ -73,6 +51,7 @@ char *ft_environment_variables(char *arguments, t_env *env_var)
         if (result != NULL)
             arguments = result;
     }
+    quots->x = 0;
     return arguments;
 }
 
@@ -108,24 +87,16 @@ char *replace_env_variable(const char *str, int *skip)
         var_name[var_index++] = str[*skip];
         (*skip)++;
     }
-    if (str[*skip] == '?')
+    while (str[*skip] && (isalnum(str[*skip]) || str[*skip] == '_'))
     {
         var_name[var_index++] = str[*skip];
         (*skip)++;
-    }
-    else
-    {
-        while (str[*skip] && (isalnum(str[*skip]) || str[*skip] == '_'))
-        {
-            var_name[var_index++] = str[*skip];
-            (*skip)++;
-        }
     }
     var_name[var_index] = '\0';
     return (var_name);
 }
 
-char **split_line_to_args(char *input, t_env *env_var)
+char **split_line_to_args(char *input, t_env *env_var, t_quots *quots)
 {
     char **args;
     char *env;
@@ -167,13 +138,13 @@ char **split_line_to_args(char *input, t_env *env_var)
             continue;
         }
         if ((input[i] != '\'' && input[i] != '"') && quote == 0 && buf_index == 0)
-            x = 2;
+            quots->x = 2;
         if ((input[i] == '\'' || input[i] == '"') && (input[i] == quote || quote == 0) && check == 1)
         {
             if (input[i] == '\"')
-                x = 0;
+                quots->x = 0;
             else
-                x = 1;
+                quots->x = 1;
 
             if (quote == 0)
                 quote = input[i];
@@ -191,23 +162,33 @@ char **split_line_to_args(char *input, t_env *env_var)
             }
             else
             {
-                buffer[buf_index] = '\0';
-                env_val = replace_env_variable(input, &i);
-               // printf("dollar = %s\n", env_val);
-                env = ft_environment_variables(env_val, env_var);
-                if (env != NULL)
+                if (input[i + 1]  == '?')
                 {
-                    ft_strcpy(buffer + buf_index, env);
-                    buf_index += ft_strlen(env);
-                    free(env);
+                    env_val = ft_itoa(exit_code);
+                    ft_strcpy(buffer + buf_index, env_val);
+                    buf_index += ft_strlen(env_val);
+                    free(env_val);
+                    i = i + 1;
                 }
-                else if (env == NULL && x == 0 && buf_index == 0)
-                    args[j++] = ft_strdup("");
-                while (input[i] != '\0' && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '$')
+                else
                 {
-                    buffer[buf_index++] = input[i++];
+                    buffer[buf_index] = '\0';
+                    env_val = replace_env_variable(input, &i);
+                    env = ft_environment_variables(env_val, env_var, quots);
+                    if (env != NULL)
+                    {
+                        ft_strcpy(buffer + buf_index, env);
+                        buf_index += ft_strlen(env);
+                        free(env);
+                    }
+                    else if (env == NULL && quots->x == 0 && buf_index == 0)
+                        args[j++] = ft_strdup("");
+                    while (input[i] != '\0' && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '$')
+                    {
+                        buffer[buf_index++] = input[i++];
+                    }
+                    i--;
                 }
-                i--;
             }
         }
         else if ((ft_skip_space(input[i]) == 1) && quote == 0)
@@ -237,7 +218,7 @@ char **split_line_to_args(char *input, t_env *env_var)
     return (args);
 }
 
-int parse_line(t_data **data, char *input, t_env *env_var)
+int parse_line(t_data **data, char *input, t_env *env_var,t_quots *quots)
 {
     char *command;
     char **arguments;
@@ -249,6 +230,7 @@ int parse_line(t_data **data, char *input, t_env *env_var)
     if (check_qout(input) == 1)
     {
         printf("minishell: syntax error\n");
+        exit_code = 2;
         return (1);
     }
     if ((i = check_redirections(input)) == 1)
@@ -259,7 +241,7 @@ int parse_line(t_data **data, char *input, t_env *env_var)
     remaining_input = input;
     while ((token = strsplit_by_pipe(&remaining_input)) != NULL)
     {
-        arguments = split_line_to_args(token, env_var);
+        arguments = split_line_to_args(token, env_var, quots);
         if (arguments[0] != NULL)
             ft_add_node(data, arguments);
         else
