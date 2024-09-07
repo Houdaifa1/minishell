@@ -33,7 +33,7 @@ void ft_add_node(t_data **head, char **arguments)
 
 int ft_skip_space(char c)
 {
-	if (c == '\t' || c == '\n' || c == '\v' || c == '\v' || c == '\v' || c == '\f' || c == '\r' || c == ' ')
+	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
 }
@@ -135,7 +135,7 @@ int check_redirections(char *input)
 			i++;
 			while (input[i] != '\0' && ft_skip_space(input[i]) == 1)
 				i++;
-			if (input[i] == '\0' || input[i] == '|' || input[i] == '<' || input[i] == '>')
+			if ((input[i] == '\0' || input[i] == '|' || input[i] == '<' || input[i] == '>') && quote == 0)
 				return (1);
 		}
 		i++;

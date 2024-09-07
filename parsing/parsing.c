@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-// int x = 0;
 
 char *ft_environment_variables(char *arguments, t_env *env_var,t_quots *quots)
 {
@@ -181,7 +180,7 @@ char **split_line_to_args(char *input, t_env *env_var, t_quots *quots)
                         buf_index += ft_strlen(env);
                         free(env);
                     }
-                    else if (env == NULL && quots->x == 0 && buf_index == 0)
+                    else if (env == NULL && quots->x == 0 && buf_index == 0 && input[i + 2] == ' ')
                         args[j++] = ft_strdup("");
                     while (input[i] != '\0' && input[i] != ' ' && input[i] != '\'' && input[i] != '"' && input[i] != '$')
                     {
