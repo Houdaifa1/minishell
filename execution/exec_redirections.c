@@ -65,3 +65,50 @@ int ft_handle_append(char *argument, int i)
     free(file_name);
     return (i);
 }
+int ft_find_del(char *line, char *del)
+{
+    int i;
+
+    i = 0;
+    while( line[i] != '\n' && del[i] && line[i] == del[i])
+        i++;
+
+    if (line[i] == '\n' && del[i] == '\0')
+        return(1);
+    return(0);
+}
+int ft_handle_heredoc(char *argument, int i)
+{
+    char *str;
+    char *temp;
+    char *line;
+    char *delimiter;
+
+    delimiter = ft_cpy_commande(argument, i + 1);
+    while (argument[i + 1] && argument[i + 1] != '>' && argument[i + 1] != '<')
+        i++;
+    str = ft_calloc(1, 1);
+    while(1)
+    {
+        temp = str;
+        line = get_next_line(0);
+        if (line == NULL)
+        {
+            free(temp);
+            break;
+        }
+        if (ft_find_del(line, delimiter) == 1)
+        {
+            free(line);
+            break;
+        }
+        str = ft_strjoin(temp, line, 1, 1);
+        free(temp);
+        free(line);
+    }
+    printf("%s\n", str);
+    free(str);
+    free(delimiter);
+    return (i);
+}
+

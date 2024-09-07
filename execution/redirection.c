@@ -8,6 +8,11 @@ int ft_which_redirection(char *argumment, int i)
         if ((i = ft_handle_append(argumment, i + 1)) == -1)
             return (-1);
     }
+    else if (argumment[i] == '<' && argumment[i + 1] == '<')
+    {
+        if ((i = ft_handle_heredoc(argumment, i + 1)) == -1)
+            return (-1);
+    }
     else if (argumment[i] == '>')
     {
         if ((i = ft_handle_output(argumment, i)) == -1)
