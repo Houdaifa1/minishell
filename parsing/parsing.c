@@ -232,11 +232,11 @@ int parse_line(t_data **data, char *input, t_env *env_var,t_quots *quots)
         exit_code = 2;
         return (1);
     }
-    if ((i = check_redirections(input)) == 1)
-    {
-        printf("minishell: syntax error near unexpected token `|' \n");
-        return (1);
-    }
+    // if ((i = check_redirections(input)) == 1)
+    // {
+    //     printf("minishell: syntax error near unexpected token `|' \n");
+    //     return (1);
+    // }
     remaining_input = input;
     while ((token = strsplit_by_pipe(&remaining_input)) != NULL)
     {

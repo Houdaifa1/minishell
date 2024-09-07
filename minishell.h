@@ -11,6 +11,9 @@
 # include <fcntl.h>
 #include <errno.h>
 
+
+# define BUFFER_SIZE 1
+
 typedef struct data
 {
     char **argumment;
@@ -89,5 +92,18 @@ int    exec_simple_commande(char **argumment, t_env **envp, t_data **data, t_hol
 void	ft_putstr_fd(char const *str);
 void ft_print_in_stderr(char *s1, char *s2, char *s3);
 void ft_free_arr(char **paths);
+void	ft_bzero(void *s, size_t n);
+int	ft_strchr(const char *s, int c);
+void	*ft_calloc(size_t count, size_t size);
+char	*get_next_line(int fd);
+int check_handle_redirections(char **argumment);
+int check_if_contain_redirections(char *cmd);
+int check_if_contain_only_redirection(char *cmd);
+char *ft_cpy_commande(char *argumment, int i);
+int ft_handle_output(char *argument, int i);
+int ft_handle_input(char *argument, int i);
+int ft_handle_append(char *argument, int i);
+int free_and_shift(char **argumment, int j);
+int check_if_redirection_end(char *argumment);
 
 #endif

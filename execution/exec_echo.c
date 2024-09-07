@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 void ft_putstr(char *str)
 {
     int i;
