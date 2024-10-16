@@ -1,130 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/16 16:51:31 by hdrahm            #+#    #+#             */
+/*   Updated: 2024/10/16 16:51:36 by hdrahm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-
-int ft_which_redirection(char *argumment, int i)
+int	ft_which_redirection(char *redirection, char *file_name)
 {
-    if (argumment[i] == '>' && argumment[i + 1] == '>')
-    {
-        if ((i = ft_handle_append(argumment, i + 1)) == -1)
-            return (-1);
-    }
-    else if (argumment[i] == '<' && argumment[i + 1] == '<')
-    {
-        if ((i = ft_handle_heredoc(argumment, i + 1)) == -1)
-            return (-1);
-    }
-    else if (argumment[i] == '>')
-    {
-        if ((i = ft_handle_output(argumment, i)) == -1)
-            return (-1);
-    }
-
-    else if (argumment[i] == '<')
-    {
-        if ((i = ft_handle_input(argumment, i)) == -1)
-            return (-1);
-    }
-    return (i);
+	if (redirection[0] == '>' && redirection[1] == '>')
+	{
+		if ((ft_handle_append(file_name)) == -1)
+			return (-1);
+	}
+	else if (redirection[0] == '>')
+	{
+		if ((ft_handle_output(file_name)) == -1)
+			return (-1);
+	}
+	else if (redirection[0] == '<')
+	{
+		if ((ft_handle_input(file_name)) == -1)
+			return (-1);
+	}
+	return (0);
 }
 
-char *handle_redirections(char *argumment)
+int	check_handle_redirections(t_data *data)
 {
-    char *commande;
-    int i;
+	t_redir_node	*temp;
 
-    i = 0;
-    commande = NULL;
-    exit_code = 0;
-    if (argumment[i] != '>' && argumment[i] != '<')
-        commande = ft_cpy_commande(argumment, 0);
-    while (argumment[i])
-    {
-        while (argumment[i] != '>' && argumment[i] != '<')
-            i++;
-        i = ft_which_redirection(argumment, i);
-        if (i == -1)
-        {
-            exit_code = 1;
-            free(commande);
-            return (NULL);
-        }
-        i++;
-    }
-    return (commande);
-}
-int handle_redirection_end(char **argumment, int j)
-{
-    int i;
-    char *join;
-    char *arg;
-
-    join = ft_strjoin(argumment[j], argumment[j + 1], 1, 1);
-    arg = handle_redirections(join);
-    if (exit_code == 1)
-    {
-        free(join);
-        return (-1);
-    }
-    if (arg != NULL)
-    {
-        free(argumment[j]);
-        argumment[j] = arg;
-        j = free_and_shift(argumment, j + 1);
-    }
-    else
-    {
-        j = free_and_shift(argumment, j);
-        j = free_and_shift(argumment, j + 1);
-    }
-    free(join);
-    return (j);
-}
-int check_handle_redirections(char **argumment)
-{
-    int j;
-    char *arg;
-    char *join;
-
-    j = 0;
-    while (argumment[j])
-    {
-        if (check_if_contain_only_redirection(argumment[j]) > 0)
-        {
-            join = ft_strjoin(argumment[j], argumment[j + 1], 1, 1);
-            handle_redirections(join);
-            if (exit_code == 1)
-            {
-                free(join);
-                return (1);
-            }
-            j = free_and_shift(argumment, j);
-            j = free_and_shift(argumment, j + 1);
-            free(join);
-        }
-        else if ((check_if_contain_redirections(argumment[j])) == 1)
-        {
-            if (check_if_redirection_end(argumment[j]) == 1)
-            {
-                if ((j = handle_redirection_end(argumment, j)) == -1)
-                    return (1);
-            }
-            else
-            {
-                arg = handle_redirections(argumment[j]);
-                if (exit_code == 1)
-                {
-                    free(arg);
-                    return (1);
-                }
-                if (arg != NULL)
-                {
-                    free(argumment[j]);
-                    argumment[j] = arg;
-                }
-                else
-                    j = free_and_shift(argumment, j);
-            }
-        }
-        j++;
-    }
+	temp = data->redirections;
+	while (temp)
+	{
+		if (temp->next->redirection == NULL)
+		{
+			ft_putstr_fd("ambiguous redirect\n");
+			g_exit_code = 1;
+			return (1);
+		}
+		if (ft_which_redirection(temp->redirection, temp->next->redirection)
+			== -1)
+		{
+			g_exit_code = 1;
+			return (1);
+		}
+		temp = temp->next->next;
+	}
+	return (0);
 }

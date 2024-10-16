@@ -1,66 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/16 16:52:12 by hdrahm            #+#    #+#             */
+/*   Updated: 2024/10/16 17:37:02 by hdrahm           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void print_use_list(t_data *head) // for testing
+int		g_exit_code;
+
+int	main(int arc, char **arv, char **envp)
 {
-    t_data *temp = head;
-    int i = 0;
-    while (temp)
-    {
-        while (temp->argumment[i] != NULL)
-        {
-            printf("Arg %d:%s\n", i, temp->argumment[i]);
-            i++;
-        }
-        i = 0;
-        temp = temp->next;
-        if (temp)
-        {
-            printf("---- Next Command ----\n");
-        }
-    }
-}
+	t_hold_main	main_vars;
 
-int exit_code ;
-
-int main(int arc, char **arv, char **envp)
-{
-    t_data *data;
-    t_env *env_var;
-    t_hold *hold_vars;
-    t_quots quots;
-    char *input;
-    int saved_stdout;
-    int saved_stdin;
-    char *temp;
-    
-    env_var = env_to_list(envp);
-    hold_vars = malloc(sizeof(t_hold));
-    quots.x = 0;
-    data = NULL;
-    while (1)
-    {
-        saved_stdout = dup(STDOUT_FILENO);
-        saved_stdin = dup(STDIN_FILENO);
-        input = readline(temp = print_prompt(env_var, NULL, NULL));
-        if (input[0] != '\0')
-        {
-            add_history(input);
-            if (parse_line(&data, input, env_var, &quots) == 0)
-            {
-                hold_vars->input = input;
-                hold_vars->temp = temp;
-                exec_commandes(data, &env_var, &data, &hold_vars);
-                dup2(saved_stdout, STDOUT_FILENO);
-                dup2(saved_stdin, STDIN_FILENO);
-                close(saved_stdout);
-                close(saved_stdin);
-            }
-
-        }
-        ft_free_list(data);
-        data = NULL;
-        quots.x = 0;
-        free(temp);
-        free(input);
-    }
+	if (arc > 1)
+		return (1);
+	g_exit_code = 0;
+	main_vars.env_var = env_to_list(envp, arv[0]);
+	main_vars.hold_vars = malloc(sizeof(t_hold));
+	while (1)
+	{
+		if (checks_before_parse(&main_vars) == 1)
+		{
+			add_history(main_vars.input);
+			if (check_parsing(&main_vars))
+			{
+				if (main_vars.i == 2)
+					free_before_exit(&main_vars.hold_vars, &main_vars.env_var,
+						&main_vars.data, 1);
+				exec_commandes(&main_vars.env_var, &main_vars.data,
+					&main_vars.hold_vars, &main_vars.quots);
+				return_to_std(main_vars.saved_stdin, main_vars.saved_stdout);
+			}
+		}
+		ft_free_data_list_and_input(&main_vars.data, main_vars.temp,
+			main_vars.input);
+	}
 }
