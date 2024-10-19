@@ -6,30 +6,33 @@
 /*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:50:52 by hdrahm            #+#    #+#             */
-/*   Updated: 2024/10/16 17:03:41 by hdrahm           ###   ########.fr       */
+/*   Updated: 2024/10/19 09:24:21 by hdrahm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_if_path(char *commande)
+int	check_if_path(char *commande)
 {
 	int	check;
 
 	check = 0;
 	check = if_contain_directory(commande);
 	if (check == 1)
-		check_if_directory(commande);
+		return (check_if_directory(commande));
+	return (0);
 }
 
 int	test_paths(char **commande, char **paths, char **envp)
 {
 	int			j;
+	int			i;
 	char		*join;
 	char		*temp;
 
-	check_if_path(commande[0]);
-	if (execve(commande[0], commande, envp) == -1)
+	i = 0;
+	i = check_if_path(commande[0]);
+	if (execve(commande[0], commande, envp) == -1 && i != 1)
 	{
 		j = 0;
 		while (paths[j])
@@ -42,6 +45,8 @@ int	test_paths(char **commande, char **paths, char **envp)
 			j++;
 		}
 	}
+	if (i == 1)
+		return (0);
 	return (1);
 }
 
@@ -83,10 +88,11 @@ void	exec_non_builtin_in_child(t_env *envp, char **commande)
 				"' not found\n");
 		else
 			ft_print_in_stderr(commande[0], ": commande not found\n", "");
+		exit(127);
 	}
 	ft_free_arr(paths);
 	ft_free_arr(envp_arr);
-	exit(127);
+	exit(0);
 }
 
 int	exec_non_builtin(char **commande, t_env **envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momazouz <momazouz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:14:32 by hdrahm            #+#    #+#             */
-/*   Updated: 2024/10/19 09:37:18 by momazouz         ###   ########.fr       */
+/*   Updated: 2024/10/19 10:08:47 by hdrahm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,7 @@ char					**ft_split(char const *s, char c);
 char					**convert_envp_to_arr(t_env *envp);
 int						count_nodes(t_env *envp);
 int						if_contain_directory(char *commande);
-void					check_if_directory(char *path);
+int						check_if_directory(char *path);
 
 // exec_in_pipes_functions
 void					exec_with_pipes(t_env **envp, t_data **data,

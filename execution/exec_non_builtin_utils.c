@@ -6,7 +6,7 @@
 /*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:50:47 by hdrahm            #+#    #+#             */
-/*   Updated: 2024/10/16 16:50:49 by hdrahm           ###   ########.fr       */
+/*   Updated: 2024/10/19 09:23:05 by hdrahm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	count_nodes(t_env *envp)
 	return (count);
 }
 
-void	check_if_directory(char *path)
+int	check_if_directory(char *path)
 {
 	struct stat	path_stat;
 
@@ -68,6 +68,7 @@ void	check_if_directory(char *path)
 			perror(path);
 			exit(126);
 		}
+		return (1);
 	}
 	else
 	{

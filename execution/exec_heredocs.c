@@ -6,7 +6,7 @@
 /*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:50:43 by hdrahm            #+#    #+#             */
-/*   Updated: 2024/10/16 16:50:45 by hdrahm           ###   ########.fr       */
+/*   Updated: 2024/10/19 10:02:05 by hdrahm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	get_child_exit_code(int pid, char *file_name, t_redir_node *red)
 	signal(SIGQUIT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, handlle_sigint);
-	signal(SIGQUIT, SIG_DFL);
 	if (WIFSIGNALED(status) != 0)
 	{
 		g_exit_code = WTERMSIG(status) + 128;

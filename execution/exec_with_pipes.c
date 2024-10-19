@@ -6,7 +6,7 @@
 /*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:51:01 by hdrahm            #+#    #+#             */
-/*   Updated: 2024/10/16 16:51:02 by hdrahm           ###   ########.fr       */
+/*   Updated: 2024/10/19 09:44:02 by hdrahm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ void	exec_with_pipes(t_env **envp, t_data **data, t_hold **hold_vars,
 				perror("Error creating pipe");
 				exit(1);
 			}
+			quots->fdout = fd[1];
 		}
 		else
 			quots->fdout = 1;
-		quots->fdout = fd[1];
 		pid = create_pipes(temp, envp, quots, hold_vars);
 		close_fds(quots->fdin, quots->fdout);
 		quots->fdin = fd[0];
