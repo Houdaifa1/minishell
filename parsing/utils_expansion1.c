@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_expansion1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: momazouz <momazouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 21:19:24 by momazouz          #+#    #+#             */
-/*   Updated: 2024/10/16 18:26:34 by hdrahm           ###   ########.fr       */
+/*   Updated: 2024/10/19 09:26:04 by momazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*replace_env_variable(const char *str, int *skip)
 {
-	char	var_name[BUFSIZ];
+	char	var_name[ARG_MAX];
 	int		var_index;
 
 	var_index = 0;
@@ -23,7 +23,8 @@ char	*replace_env_variable(const char *str, int *skip)
 		var_name[var_index++] = str[*skip];
 		(*skip)++;
 	}
-	while (str[*skip] && ft_is_valid(str[*skip]) == 1 && var_index < BUFSIZ - 1)
+	while (str[*skip] && ft_is_valid(str[*skip]) == 1 && var_index < ARG_MAX
+		- 1)
 	{
 		var_name[var_index++] = str[*skip];
 		(*skip)++;

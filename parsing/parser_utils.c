@@ -6,7 +6,7 @@
 /*   By: momazouz <momazouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 21:16:40 by momazouz          #+#    #+#             */
-/*   Updated: 2024/10/15 21:16:42 by momazouz         ###   ########.fr       */
+/*   Updated: 2024/10/19 09:18:32 by momazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	init_parser_state(t_ParserState *state, char *input, t_env *env_var,
 		t_quots *quots)
 {
 	state->input = input;
-	state->buffer = malloc(BUFSIZ);
+	state->buffer = malloc(ARG_MAX);
 	state->buf_index = 0;
 	state->redir_index = 0;
 	state->i = 0;

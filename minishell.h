@@ -6,7 +6,7 @@
 /*   By: momazouz <momazouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 10:14:32 by hdrahm            #+#    #+#             */
-/*   Updated: 2024/10/15 21:59:03 by momazouz         ###   ########.fr       */
+/*   Updated: 2024/10/19 09:37:18 by momazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <errno.h>
 # include <fcntl.h>
+# include <linux/limits.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>

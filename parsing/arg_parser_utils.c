@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_parser_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdrahm <hdrahm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: momazouz <momazouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 21:13:46 by momazouz          #+#    #+#             */
-/*   Updated: 2024/10/16 17:58:25 by hdrahm           ###   ########.fr       */
+/*   Updated: 2024/10/19 09:25:44 by momazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	process_buffer_until_special_char(t_ParserState *state)
 		&& ft_skip_space(state->input[state->i]) != 1
 		&& state->input[state->i] != '>' && state->input[state->i] != '<'
 		&& state->input[state->i] != '\'' && state->input[state->i] != '"'
-		&& state->input[state->i] != '$' && state->buf_index < BUFSIZ - 1)
+		&& state->input[state->i] != '$' && state->buf_index < ARG_MAX - 1)
 	{
 		state->buffer[state->buf_index++] = state->input[state->i++];
 	}

@@ -6,7 +6,7 @@
 /*   By: momazouz <momazouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 21:14:35 by momazouz          #+#    #+#             */
-/*   Updated: 2024/10/15 21:14:38 by momazouz         ###   ########.fr       */
+/*   Updated: 2024/10/19 09:38:53 by momazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	append_char_to_result(char **result, char arguments_char)
 char	*handle_dollar_in_arguments(char *arguments, t_env *env_var,
 		int *i)
 {
-	char				tmp[BUFSIZ];
+	char				tmp[ARG_MAX];
 	char				*env;
 	long unsigned int	j;
 
